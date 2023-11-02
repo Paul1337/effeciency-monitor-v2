@@ -1,0 +1,31 @@
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../domain/redux/store';
+import { IDailyPlan } from '../../../domain/entities/PlanItem/model';
+
+export const DailyPlansList = () => {
+    const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
+
+    const handleRemovePlanClick = (dailyPlan: IDailyPlan) => {
+        console.log('handle remove', dailyPlan);
+    };
+
+    return (
+        <Box display={'flex'} flexDirection={'column'}>
+            {dailyPlans.map((dailyPlan, index) => (
+                <Flex
+                    border='1px solid black'
+                    p={2}
+                    m={2}
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'space-between'}
+                    key={dailyPlan.deal.name + index}
+                >
+                    <Text>{dailyPlan.deal.name}</Text>
+                    <Button onClick={() => handleRemovePlanClick(dailyPlan)}>&times;</Button>
+                </Flex>
+            ))}
+        </Box>
+    );
+};
