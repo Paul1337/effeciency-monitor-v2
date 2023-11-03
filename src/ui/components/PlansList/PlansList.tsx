@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../domain/redux/store';
 import { IDailyPlan } from '../../../domain/entities/PlanItem/model';
 import { DailyPlansList } from './DailyPlansList';
+import { LongPlansList } from './LongPlansList';
 
 export const PlansList = () => {
     const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
@@ -40,7 +41,9 @@ export const PlansList = () => {
                         <TabPanel>
                             <DailyPlansList />
                         </TabPanel>
-                        <TabPanel></TabPanel>
+                        <TabPanel>
+                            <LongPlansList />
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </CardBody>

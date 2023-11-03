@@ -8,7 +8,7 @@ export enum EPlanType {
 export interface IDailyPlan {
     deal: IDeal;
     count: number;
-    weekdays?: Array<number>;
+    weekdays: Array<number>;
 }
 
 export interface IPlanItem {

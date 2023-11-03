@@ -1,12 +1,12 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../domain/redux/store';
-import { IDailyPlan } from '../../../domain/entities/PlanItem/model';
+import { IDailyPlan, IPlanItem } from '../../../domain/entities/PlanItem/model';
 
-export const DailyPlansList = () => {
+export const LongPlansList = () => {
     const longPlans = useSelector((state: RootState) => state.plans.longPlans);
 
-    const handleRemovePlanClick = (dailyPlan: IDailyPlan) => {
+    const handleRemovePlanClick = (dailyPlan: IPlanItem) => {
         console.log('handle remove', dailyPlan);
     };
 
