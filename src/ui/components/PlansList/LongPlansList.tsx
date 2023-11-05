@@ -1,31 +1,42 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../domain/redux/store';
-import { IDailyPlan, IPlanItem } from '../../../domain/entities/PlanItem/model';
+import { RootState, useAppDispatch } from '../../../domain/redux/store';
+import { IPlanItem } from '../../../domain/entities/PlanItem/model';
+import { thunkRemoveLongPlan } from '../../../domain/redux/services/plan/removePlan';
 
 export const LongPlansList = () => {
+    const dispatch = useAppDispatch();
     const longPlans = useSelector((state: RootState) => state.plans.longPlans);
 
-    const handleRemovePlanClick = (dailyPlan: IPlanItem) => {
-        console.log('handle remove', dailyPlan);
+    const handleRemovePlanClick = (longPlan: IPlanItem) => {
+        dispatch(thunkRemoveLongPlan(longPlan));
     };
 
     return (
-        <Box display={'flex'} flexDirection={'column'}>
-            {longPlans.map((longPlan, index) => (
-                <Flex
-                    border='1px solid black'
-                    p={2}
-                    m={2}
-                    direction={'row'}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                    key={longPlan.deal.name + index}
-                >
-                    <Text>{longPlan.deal.name}</Text>
-                    <Button onClick={() => handleRemovePlanClick(longPlan)}>&times;</Button>
-                </Flex>
-            ))}
-        </Box>
+        <TableContainer>
+            <Table variant='simple'>
+                <Thead>
+                    <Tr>
+                        <Th>Deal</Th>
+                        <Th>Plan date</Th>
+                        <Th isNumeric>Count</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {longPlans.map((plan, index) => {
+                        return (
+                            <Tr key={plan.id ?? plan.deal.name + index}>
+                                <Td>{plan.deal.name}</Td>
+                                <Td>{plan.date}</Td>
+                                <Td isNumeric>{plan.count}</Td>
+                                <Td display={'flex'} justifyContent={'flex-end'}>
+                                    <Button onClick={() => handleRemovePlanClick(plan)}>&times;</Button>
+                                </Td>
+                            </Tr>
+                        );
+                    })}
+                </Tbody>
+            </Table>
+        </TableContainer>
     );
 };

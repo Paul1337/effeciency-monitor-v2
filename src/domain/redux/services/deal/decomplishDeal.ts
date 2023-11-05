@@ -1,7 +1,7 @@
-import localStorageConfig from '../../config/localStorage/localStorageConfig';
-import { IDeal } from '../../entities/Deal/model';
-import { historyActions } from '../slices/history/historySlice';
-import { AppThunk } from '../store';
+import localStorageConfig from '../../../config/localStorage/localStorageConfig';
+import { IDeal } from '../../../entities/Deal/model';
+import { historyActions } from '../../slices/history/historySlice';
+import { AppThunk } from '../../store';
 
 export interface IDecomplishDealParams {
     deal: IDeal;

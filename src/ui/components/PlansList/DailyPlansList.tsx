@@ -1,40 +1,26 @@
-import {
-    Box,
-    Button,
-    Flex,
-    Table,
-    TableCaption,
-    TableContainer,
-    Tbody,
-    Td,
-    Text,
-    Tfoot,
-    Th,
-    Thead,
-    Tr,
-} from '@chakra-ui/react';
+import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../domain/redux/store';
+import { RootState, useAppDispatch } from '../../../domain/redux/store';
 import { IDailyPlan } from '../../../domain/entities/PlanItem/model';
 import { WeekdaysNames } from '../../shared/weekdays';
+import { thunkRemoveDailyPlan } from '../../../domain/redux/services/plan/removePlan';
 
 export const DailyPlansList = () => {
+    const dispatch = useAppDispatch();
     const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
 
     const handleRemovePlanClick = (dailyPlan: IDailyPlan) => {
-        console.log('handle remove', dailyPlan);
+        dispatch(thunkRemoveDailyPlan(dailyPlan));
     };
 
     return (
         <TableContainer>
             <Table variant='simple'>
-                {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
                 <Thead>
                     <Tr>
                         <Th>Deal</Th>
                         <Th>Weekdays</Th>
                         <Th isNumeric>Count</Th>
-                        {/* <Th>1</Th> */}
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -48,13 +34,13 @@ export const DailyPlansList = () => {
                                     {WeekdaysNames.filter(
                                         (weekName, index) => !plan.weekdays.includes(index)
                                     ).map(weekName => (
-                                        <span>{weekName}</span>
+                                        <span key={weekName}>{weekName}</span>
                                     ))}
                                 </>
                             );
 
                         return (
-                            <Tr key={plan.deal.name + index}>
+                            <Tr key={plan.id ?? plan.deal.name + index}>
                                 <Td>{plan.deal.name}</Td>
                                 <Td>{weekDaysFormatted}</Td>
                                 <Td isNumeric>{plan.count}</Td>
@@ -67,21 +53,5 @@ export const DailyPlansList = () => {
                 </Tbody>
             </Table>
         </TableContainer>
-        // <Box display={'flex'} flexDirection={'column'}>
-        //     {dailyPlans.map((dailyPlan, index) => (
-        //         <Flex
-        //             border='1px solid black'
-        //             p={2}
-        //             m={2}
-        //             direction={'row'}
-        //             alignItems={'center'}
-        //             justifyContent={'space-between'}
-        //             key={dailyPlan.deal.name + index}
-        //         >
-        //             <Text>{dailyPlan.deal.name}</Text>
-        //             <Button onClick={() => handleRemovePlanClick(dailyPlan)}>&times;</Button>
-        //         </Flex>
-        //     ))}
-        // </Box>
     );
 };

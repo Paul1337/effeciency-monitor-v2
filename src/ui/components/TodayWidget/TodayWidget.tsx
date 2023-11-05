@@ -5,8 +5,8 @@ import { TodayItem } from './TodayItem';
 import { WeekdaysNames } from '../../shared/weekdays';
 import { compareDays } from '../../../domain/shared/dates/compareDates';
 import { IDeal } from '../../../domain/entities/Deal/model';
-import { thunkAccomplishDeal } from '../../../domain/redux/services/accomplishDeal';
-import { thunkDecomplishDeal } from '../../../domain/redux/services/decomplishDeal';
+import { thunkAccomplishDeal } from '../../../domain/redux/services/deal/accomplishDeal';
+import { thunkDecomplishDeal } from '../../../domain/redux/services/deal/decomplishDeal';
 
 export const TodayWidget = () => {
     const dispatch = useAppDispatch();
@@ -44,7 +44,7 @@ export const TodayWidget = () => {
                 <Heading>Today ({WeekdaysNames[currentWeekday]})</Heading>
             </CardHeader>
             <CardBody>
-                <Text>Plans:</Text>
+                <Text>Planned deals:</Text>
                 {todayPlans.map(({ deal, count }, index) => (
                     <TodayItem
                         onDo={() => handleTodayItemDo(deal)}

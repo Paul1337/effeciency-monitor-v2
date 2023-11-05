@@ -22,22 +22,22 @@ const plansSlice = createSlice({
             state.dailyPlans = action.payload.dailyPlans ?? [];
         },
         addLongPlan(state: IPlansSliceScheme, action: PayloadAction<IPlanItem>) {
-            const sameDeal = (plan: IPlanItem) => plan.deal.name === action.payload.deal.name;
-            if (!state.longPlans.find(sameDeal)) {
+            const samePlan = (plan: IPlanItem) => plan.id === action.payload.id;
+            if (!state.longPlans.find(samePlan)) {
                 state.longPlans.push(action.payload);
             }
         },
         addDailyPlan(state: IPlansSliceScheme, action: PayloadAction<IDailyPlan>) {
-            const sameDeal = (plan: IDailyPlan) => plan.deal.name === action.payload.deal.name;
-            if (!state.dailyPlans.find(sameDeal)) {
+            const samePlan = (plan: IDailyPlan) => plan.id === action.payload.id;
+            if (!state.dailyPlans.find(samePlan)) {
                 state.dailyPlans.push(action.payload);
             }
         },
-        removeDailyPlanByDeal(state: IPlansSliceScheme, action: PayloadAction<IDeal>) {
-            state.dailyPlans = state.dailyPlans.filter((plan) => plan.deal.name !== action.payload.name);
+        removeDailyPlanByID(state: IPlansSliceScheme, action: PayloadAction<IDailyPlan['id']>) {
+            state.dailyPlans = state.dailyPlans.filter(plan => plan.id !== action.payload);
         },
-        removeLongPlanByDeal(state: IPlansSliceScheme, action: PayloadAction<IDeal>) {
-            state.longPlans = state.longPlans.filter((plan) => plan.deal.name !== action.payload.name);
+        removeLongPlanByID(state: IPlansSliceScheme, action: PayloadAction<IPlanItem['id']>) {
+            state.longPlans = state.longPlans.filter(plan => plan.id !== action.payload);
         },
     },
 });

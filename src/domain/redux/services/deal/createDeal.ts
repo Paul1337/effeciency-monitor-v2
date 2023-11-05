@@ -1,6 +1,6 @@
-import localStorageConfig from '../../config/localStorage/localStorageConfig';
-import { dealsActions } from '../slices/deals/dealsSlice';
-import { AppThunk } from '../store';
+import localStorageConfig from '../../../config/localStorage/localStorageConfig';
+import { dealsActions } from '../../slices/deals/dealsSlice';
+import { AppThunk } from '../../store';
 
 export const buildDeal = (dealName: string) => ({
     name: dealName,

@@ -9,6 +9,7 @@ export interface IDailyPlan {
     deal: IDeal;
     count: number;
     weekdays: Array<number>;
+    id: string;
 }
 
 export interface IPlanItem {
@@ -16,4 +17,5 @@ export interface IPlanItem {
     count: number;
     date: string;
     startDate: string;
+    id: string;
 }
