@@ -1,4 +1,5 @@
 import { IDeal } from '../../../entities/Deal/model';
+import { generateDailyPlanID, generateLongPlanID } from '../../../entities/PlanItem/lib';
 import { IDailyPlan, IPlanItem } from '../../../entities/PlanItem/model';
 import { plansActions } from '../../slices/plans/plansSlice';
 import { AppThunk } from '../../store';
@@ -8,10 +9,6 @@ interface ICreateDailyPlanParams {
     weekdays: Array<number>;
     count: number;
 }
-
-const generateDailyPlanID = (params: ICreateDailyPlanParams) => {
-    return params.deal.name + params.weekdays.toString() + params.count.toString();
-};
 
 export const thunkCreateDailyPlan = (params: ICreateDailyPlanParams): AppThunk => {
     return dispatch => {
@@ -30,10 +27,6 @@ interface ICreateLongPlanParams {
     date: string;
     count: number;
 }
-
-const generateLongPlanID = (params: ICreateLongPlanParams) => {
-    return params.deal.name + params.date + params.count.toString();
-};
 
 export const thunkCreateLongPlan = (params: ICreateLongPlanParams): AppThunk => {
     return dispatch => {
