@@ -17,13 +17,20 @@ const config = {
     defaultPlanCount: 1,
 };
 
-export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
+export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = (props) => {
     const dispatch = useAppDispatch();
     const { isOpen, onClose } = props;
 
     const [planCount, setPlanCount] = useState(config.defaultPlanCount);
     const deals = useSelector((state: RootState) => state.deals.deals);
     const [deal, setDeal] = useState<IDeal | null>(deals[0]);
+
+    const [isCreatingNewDeal, setCreatingNewDeal] = useState(false);
+    const [dealTextName, setDealTextName] = useState('');
+
+    useEffect(() => {
+        if (!deal) setCreatingNewDeal(true);
+    }, [deal]);
 
     useEffect(() => {
         setDeal(deals[0]);
@@ -53,10 +60,20 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
             <FormLabel>Plan count:</FormLabel>
             <Input
                 type='number'
-                onChange={e => setPlanCount(Number(e.target.value))}
+                onChange={(e) => setPlanCount(Number(e.target.value))}
                 value={planCount.toString()}
             />
-            {deal && <DealSelector onSelect={deal => setDeal(deal)} value={deal} />}
+            {isCreatingNewDeal && (
+                <>
+                    <FormLabel>Deal name</FormLabel>
+                    <Input
+                        type='text'
+                        value={dealTextName}
+                        onChange={(e) => setDealTextName(e.target.value)}
+                    />
+                </>
+            )}
+            {deal && <DealSelector onSelect={(deal) => setDeal(deal)} value={deal} />}
         </BasicModal>
     );
 };
