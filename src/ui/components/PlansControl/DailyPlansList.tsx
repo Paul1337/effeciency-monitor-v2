@@ -14,7 +14,7 @@ export const DailyPlansList = () => {
     };
 
     return (
-        <TableContainer flex={1}>
+        <TableContainer>
             <Table variant='simple'>
                 <Thead>
                     <Tr>

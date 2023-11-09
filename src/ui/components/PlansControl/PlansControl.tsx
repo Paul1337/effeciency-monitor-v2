@@ -34,8 +34,8 @@ export const PlansControl = () => {
 
     return (
         <>
-            <Tabs>
-                <BaseCard height={'100%'}>
+            <Tabs flex={1} display={'flex'}>
+                <BaseCard flex={1}>
                     <CardHeader>
                         <Heading>Plans</Heading>
                         <TabList mt={2}>

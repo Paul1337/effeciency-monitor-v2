@@ -8,8 +8,10 @@ import {
     TabPanels,
     Tabs,
 } from '@chakra-ui/react';
-import React from 'react';
 import { BaseCard } from '../BaseCard/BaseCard';
+import { DailyPlansStat } from './DailyPlansStat/DailyPlansStat';
+import { LongPlansStat } from './LongPlansStat/LongPlansStat';
+import { DealsStat } from './DealsStat/DealsStat';
 
 export const Stat = () => {
     return (
@@ -25,8 +27,15 @@ export const Stat = () => {
                         <Tab>Deals</Tab>
                     </TabList>
                     <TabPanels>
-                        <TabPanel></TabPanel>
-                        <TabPanel></TabPanel>
+                        <TabPanel>
+                            <DailyPlansStat />
+                        </TabPanel>
+                        <TabPanel>
+                            <LongPlansStat />
+                        </TabPanel>
+                        <TabPanel>
+                            <DealsStat />
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </CardBody>
