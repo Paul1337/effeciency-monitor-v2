@@ -13,7 +13,7 @@ export const LongPlansList = () => {
     };
 
     return (
-        <TableContainer>
+        <TableContainer overflowY={'auto'}>
             <Table variant='simple'>
                 <Thead>
                     <Tr>

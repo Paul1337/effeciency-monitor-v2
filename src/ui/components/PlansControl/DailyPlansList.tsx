@@ -14,7 +14,7 @@ export const DailyPlansList = () => {
     };
 
     return (
-        <TableContainer>
+        <TableContainer flex={1}>
             <Table variant='simple'>
                 <Thead>
                     <Tr>
@@ -27,14 +27,18 @@ export const DailyPlansList = () => {
                     {dailyPlans.map((plan, index) => {
                         const weekDaysFormatted =
                             plan.weekdays.length <= WeekdaysNames.length / 2 ? (
-                                plan.weekdays.map(weekdayInd => <span>{WeekdaysNames[weekdayInd]}</span>)
+                                plan.weekdays.map(weekdayInd => (
+                                    <span key={WeekdaysNames[weekdayInd]}>
+                                        {WeekdaysNames[weekdayInd]}{' '}
+                                    </span>
+                                ))
                             ) : (
                                 <>
                                     <span>* {plan.weekdays.length < WeekdaysNames.length && ' / '}</span>
                                     {WeekdaysNames.filter(
                                         (weekName, index) => !plan.weekdays.includes(index)
                                     ).map(weekName => (
-                                        <span key={weekName}>{weekName}</span>
+                                        <span key={weekName}>{weekName} </span>
                                     ))}
                                 </>
                             );

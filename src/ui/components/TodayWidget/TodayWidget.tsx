@@ -7,6 +7,7 @@ import { compareDays } from '../../../domain/shared/dates/compareDates';
 import { IDeal } from '../../../domain/entities/Deal/model';
 import { thunkAccomplishDeal } from '../../../domain/redux/services/deal/accomplishDeal';
 import { thunkDecomplishDeal } from '../../../domain/redux/services/deal/decomplishDeal';
+import { BaseCard } from '../BaseCard/BaseCard';
 
 export const TodayWidget = () => {
     const dispatch = useAppDispatch();
@@ -39,11 +40,11 @@ export const TodayWidget = () => {
     };
 
     return (
-        <Card m={2} borderWidth={2} borderColor={'gray.300'}>
+        <BaseCard>
             <CardHeader>
                 <Heading>Today ({WeekdaysNames[currentWeekday]})</Heading>
             </CardHeader>
-            <CardBody>
+            <CardBody overflowY={'auto'}>
                 <Text>Planned deals:</Text>
                 {todayPlans.map(({ deal, count }, index) => (
                     <TodayItem
@@ -68,6 +69,6 @@ export const TodayWidget = () => {
                     />
                 ))}
             </CardBody>
-        </Card>
+        </BaseCard>
     );
 };

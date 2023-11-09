@@ -28,7 +28,7 @@ export const TodayItem: FC<ITodayItemProps> = props => {
             justifyContent={'space-between'}
             alignItems={'center'}
         >
-            <Text fontSize={20} fontWeight={'bold'}>
+            <Text fontSize={18} fontWeight={'bold'}>
                 {deal.name}
             </Text>
 
@@ -39,8 +39,8 @@ export const TodayItem: FC<ITodayItemProps> = props => {
                     justifyContent={'space-between'}
                     alignItems={'center'}
                     minWidth={150}
-                    fontSize={20}
-                    fontWeight={700}
+                    fontSize={18}
+                    // fontWeight={700}
                 >
                     <Box>
                         <Text display={'inline'}>{done}</Text>
@@ -49,9 +49,10 @@ export const TodayItem: FC<ITodayItemProps> = props => {
                     {count && (
                         <>
                             <Text
+                                fontWeight={700}
                                 display={'inline-block'}
                                 ml={4}
-                                fontSize={22}
+                                fontSize={20}
                                 color={done >= count ? 'green.800' : 'yellow.800'}
                             >
                                 {percentage}%
@@ -60,9 +61,15 @@ export const TodayItem: FC<ITodayItemProps> = props => {
                     )}
                 </Box>
 
-                <Button onClick={handleDoClick}>Do</Button>
-
-                <Button isDisabled={!canUndo} onClick={handleUndoClick} marginLeft={3}>
+                <Button onClick={handleDoClick} colorScheme={'green'}>
+                    Do
+                </Button>
+                <Button
+                    isDisabled={!canUndo}
+                    onClick={handleUndoClick}
+                    marginLeft={3}
+                    colorScheme={'yellow'}
+                >
                     Undo
                 </Button>
             </Box>

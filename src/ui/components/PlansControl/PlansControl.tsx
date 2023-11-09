@@ -1,9 +1,13 @@
 import {
     Button,
+    ButtonGroup,
     Card,
     CardBody,
+    CardFooter,
     CardHeader,
+    Flex,
     Heading,
+    Spacer,
     Tab,
     TabList,
     TabPanel,
@@ -15,6 +19,7 @@ import { LongPlansList } from './LongPlansList';
 import { ModalCreateDailyPlan } from '../Modals/ModalCreateDailyPlan/ModalCreateDailyPlan';
 import { useState } from 'react';
 import { ModalCreateLongPlan } from '../Modals/ModalCreateLongPlan/ModalCreateLongPlan';
+import { BaseCard } from '../BaseCard/BaseCard';
 
 export const PlansControl = () => {
     const [showModalCreateDailyPlan, setShowModalCreateDailyPlan] = useState(false);
@@ -29,33 +34,37 @@ export const PlansControl = () => {
 
     return (
         <>
-            <Card>
-                <CardHeader>
-                    <Heading>Plans</Heading>
-                </CardHeader>
-                <CardBody>
-                    <Tabs>
-                        <TabList>
+            <Tabs>
+                <BaseCard height={'100%'}>
+                    <CardHeader>
+                        <Heading>Plans</Heading>
+                        <TabList mt={2}>
                             <Tab>Daily</Tab>
                             <Tab>Long-time</Tab>
                         </TabList>
+                    </CardHeader>
+                    <CardBody overflowY={'auto'}>
                         <TabPanels>
                             <TabPanel>
                                 <DailyPlansList />
-                                <Button mt={4} onClick={handleCreateDailyPlanClick}>
-                                    Create daily plan
-                                </Button>
                             </TabPanel>
                             <TabPanel>
                                 <LongPlansList />
-                                <Button mt={4} onClick={handleCreateLongPlanClick}>
-                                    Create long plan
-                                </Button>
                             </TabPanel>
                         </TabPanels>
-                    </Tabs>
-                </CardBody>
-            </Card>
+                    </CardBody>
+                    <CardFooter>
+                        <ButtonGroup gap={2} colorScheme='green'>
+                            <Button mt={4} onClick={handleCreateDailyPlanClick}>
+                                Create daily plan
+                            </Button>
+                            <Button mt={4} onClick={handleCreateLongPlanClick}>
+                                Create long plan
+                            </Button>
+                        </ButtonGroup>
+                    </CardFooter>
+                </BaseCard>
+            </Tabs>
             <ModalCreateDailyPlan
                 isOpen={showModalCreateDailyPlan}
                 onClose={() => setShowModalCreateDailyPlan(false)}
