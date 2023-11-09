@@ -1,12 +1,29 @@
+import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
 import { updatePlansDataInStorage } from '../../../data/localStorage/plans';
+import { IDeal } from '../../../entities/Deal/model';
 import { IDailyPlan, IPlanItem } from '../../../entities/PlanItem/model';
 import { plansActions } from '../../slices/plans/plansSlice';
-import { AppThunk } from '../../store';
+import { AppThunk, RootState } from '../../store';
+import { thunkRemoveDeal } from '../deal/removeDeal';
+
+const isDealUseless = (state: RootState, deal: IDeal): boolean => {
+    const inDailyPlans = state.plans.dailyPlans.some(plan => plan.deal.name === deal.name);
+    const inLongPlans = state.plans.longPlans.some(plan => plan.deal.name === deal.name);
+
+    return !inDailyPlans && !inLongPlans;
+};
 
 export const thunkRemoveDailyPlan = (plan: IDailyPlan): AppThunk => {
     return (dispatch, getState) => {
         dispatch(plansActions.removeDailyPlanByID(plan.id));
-        updatePlansDataInStorage(getState().plans);
+        const plansState = getState().plans;
+        updatePlansDataInStorage(plansState);
+
+        if (isDealUseless(getState(), plan.deal)) {
+            dispatch(thunkRemoveDeal(plan.deal));
+            const dealsState = getState().deals.deals;
+            updateDealsDataInStorage(dealsState);
+        }
     };
 };
 

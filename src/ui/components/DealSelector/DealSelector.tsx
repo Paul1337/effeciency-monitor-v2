@@ -27,7 +27,7 @@ export const DealSelector: FC<IDealSelectorProps> = props => {
 
     return (
         <>
-            <FormLabel>Deal</FormLabel>
+            <FormLabel>Select deal</FormLabel>
             <Select
                 onChange={handleDealSelect}
                 value={{ label: value.name, value: value.name }}

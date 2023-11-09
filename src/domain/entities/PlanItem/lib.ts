@@ -1,21 +1,19 @@
-import { IDeal } from '../Deal/model';
-
 interface IGenerateLongPlanIDParams {
-    deal: IDeal;
+    dealName: string;
     date: string;
     count: number;
 }
 
 export const generateLongPlanID = (plan: IGenerateLongPlanIDParams) => {
-    return plan.deal.name + plan.date + plan.count.toString();
+    return plan.dealName + plan.date + plan.count.toString();
 };
 
 interface IGenerateDailyPlanIDParams {
-    deal: IDeal;
+    dealName: string;
     weekdays: Array<number>;
     count: number;
 }
 
 export const generateDailyPlanID = (plan: IGenerateDailyPlanIDParams) => {
-    return plan.deal.name + plan.weekdays.toString() + plan.count.toString();
+    return plan.dealName + plan.weekdays.toString() + plan.count.toString();
 };

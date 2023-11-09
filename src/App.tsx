@@ -1,12 +1,12 @@
 import { AppLayout } from './ui/components/AppLayout/AppLayout';
-import { PlansList } from './ui/components/PlansList/PlansList';
+import { PlansControl } from './ui/components/PlansControl/PlansControl';
 import { TodayWidget } from './ui/components/TodayWidget/TodayWidget';
 
 function App() {
     return (
         <AppLayout>
             <TodayWidget />
-            <PlansList />
+            <PlansControl />
         </AppLayout>
     );
 }

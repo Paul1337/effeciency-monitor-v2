@@ -17,7 +17,7 @@ export const TodayItem: FC<ITodayItemProps> = props => {
     const handleDoClick = () => onDo?.();
     const handleUndoClick = () => onUndo?.();
 
-    const percentage = count && ((done / count) * 100).toFixed(0);
+    const percentage = count && ((done / count) * 100).toFixed(1);
     return (
         <Box
             borderWidth={1}

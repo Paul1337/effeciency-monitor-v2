@@ -1,4 +1,4 @@
-import localStorageConfig from '../../../config/localStorage/localStorageConfig';
+import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
 import { dealsActions } from '../../slices/deals/dealsSlice';
 import { AppThunk } from '../../store';
 
@@ -11,8 +11,6 @@ export const thunkCreateDeal = (dealName: string): AppThunk => {
         const newDeal = buildDeal(dealName);
         dispatch(dealsActions.tryAddDeal(newDeal));
         const { deals, addError } = getState().deals;
-        if (!addError) {
-            localStorage.setItem(localStorageConfig.DealsKey, JSON.stringify(deals));
-        }
+        if (!addError) updateDealsDataInStorage(deals);
     };
 };

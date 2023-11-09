@@ -14,14 +14,18 @@ import { DailyPlansList } from './DailyPlansList';
 import { LongPlansList } from './LongPlansList';
 import { ModalCreateDailyPlan } from '../Modals/ModalCreateDailyPlan/ModalCreateDailyPlan';
 import { useState } from 'react';
+import { ModalCreateLongPlan } from '../Modals/ModalCreateLongPlan/ModalCreateLongPlan';
 
-export const PlansList = () => {
+export const PlansControl = () => {
     const [showModalCreateDailyPlan, setShowModalCreateDailyPlan] = useState(false);
+    const [showModalCreateLongPlan, setShowModalCreateLongPlan] = useState(false);
 
     const handleCreateDailyPlanClick = () => {
         setShowModalCreateDailyPlan(true);
     };
-    const handleCreateLongPlanClick = () => {};
+    const handleCreateLongPlanClick = () => {
+        setShowModalCreateLongPlan(true);
+    };
 
     return (
         <>
@@ -55,6 +59,10 @@ export const PlansList = () => {
             <ModalCreateDailyPlan
                 isOpen={showModalCreateDailyPlan}
                 onClose={() => setShowModalCreateDailyPlan(false)}
+            />
+            <ModalCreateLongPlan
+                isOpen={showModalCreateLongPlan}
+                onClose={() => setShowModalCreateLongPlan(false)}
             />
         </>
     );

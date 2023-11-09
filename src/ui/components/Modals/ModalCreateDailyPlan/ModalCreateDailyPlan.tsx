@@ -1,12 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { BasicModal } from '../Modal/Modal';
-import { FormLabel, Input, Text, useDisclosure } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, Switch } from '@chakra-ui/react';
 import { RootState, useAppDispatch } from '../../../../domain/redux/store';
-import { thunkCreateDailyPlan } from '../../../../domain/redux/services/plan/createPlan';
 import { useSelector } from 'react-redux';
 import { IDeal } from '../../../../domain/entities/Deal/model';
 import { DealSelector } from '../../DealSelector/DealSelector';
 import { WeekdaysSelector } from '../../WeekdaysSelector/WeekdaysSelector';
+import { thunkCreateDeal } from '../../../../domain/redux/services/deal/createDeal';
+import { thunkCreateDailyPlan } from '../../../../domain/redux/services/plan/createPlan/createDailyPlan';
 
 interface IModalCreateDailyPlanProps {
     isOpen: boolean;
@@ -17,7 +18,9 @@ const config = {
     defaultPlanCount: 1,
 };
 
-export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = (props) => {
+const AllWeekdays = [0, 1, 2, 3, 4, 5, 6];
+
+export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
     const dispatch = useAppDispatch();
     const { isOpen, onClose } = props;
 
@@ -27,22 +30,23 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = (props) => {
 
     const [isCreatingNewDeal, setCreatingNewDeal] = useState(false);
     const [dealTextName, setDealTextName] = useState('');
+    const [weekdays, setWeekdays] = useState(AllWeekdays);
 
     useEffect(() => {
-        if (!deal) setCreatingNewDeal(true);
-    }, [deal]);
-
-    useEffect(() => {
+        setCreatingNewDeal(!Boolean(deals[0]));
         setDeal(deals[0]);
     }, [deals]);
 
     const handleAction = () => {
-        if (!deal) return;
+        if (!deal && !dealTextName) return;
+        if (isCreatingNewDeal) {
+            dispatch(thunkCreateDeal(dealTextName));
+        }
         dispatch(
             thunkCreateDailyPlan({
                 count: planCount,
-                deal,
-                weekdays: [],
+                dealName: isCreatingNewDeal ? dealTextName : (deal as IDeal).name,
+                weekdays,
             })
         );
         onClose?.();
@@ -56,24 +60,36 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = (props) => {
             onAction={handleAction}
             title='Creating daily plan'
         >
-            <WeekdaysSelector />
+            <WeekdaysSelector value={weekdays} onChange={value => setWeekdays(value)} />
             <FormLabel>Plan count:</FormLabel>
             <Input
                 type='number'
-                onChange={(e) => setPlanCount(Number(e.target.value))}
+                onChange={e => setPlanCount(Number(e.target.value))}
                 value={planCount.toString()}
             />
-            {isCreatingNewDeal && (
+            <FormControl display={'flex'} my={2} alignItems={'center'}>
+                <FormLabel margin={0} mr={2}>
+                    Create new deal:
+                </FormLabel>
+                <Switch
+                    id='new-old-deal'
+                    size={'md'}
+                    isChecked={isCreatingNewDeal}
+                    onChange={e => setCreatingNewDeal(e.target.checked)}
+                />
+            </FormControl>
+            {isCreatingNewDeal || !deal ? (
                 <>
-                    <FormLabel>Deal name</FormLabel>
+                    <FormLabel>Choose deal name</FormLabel>
                     <Input
                         type='text'
                         value={dealTextName}
-                        onChange={(e) => setDealTextName(e.target.value)}
+                        onChange={e => setDealTextName(e.target.value)}
                     />
                 </>
+            ) : (
+                <DealSelector onSelect={deal => setDeal(deal)} value={deal} />
             )}
-            {deal && <DealSelector onSelect={(deal) => setDeal(deal)} value={deal} />}
         </BasicModal>
     );
 };
