@@ -26,7 +26,7 @@ export const Stat = () => {
                         <Tab>Long plans</Tab>
                         <Tab>Deals</Tab>
                     </TabList>
-                    <TabPanels>
+                    <TabPanels overflow={'auto'}>
                         <TabPanel>
                             <DailyPlansStat />
                         </TabPanel>

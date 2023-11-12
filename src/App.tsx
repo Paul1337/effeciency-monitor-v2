@@ -3,15 +3,19 @@ import { AppLayout } from './ui/components/AppLayout/AppLayout';
 import { PlansControl } from './ui/components/PlansControl/PlansControl';
 import { Stat } from './ui/components/Stat/Stat';
 import { TodayWidget } from './ui/components/TodayWidget/TodayWidget';
+import { Route, Routes } from 'react-router-dom';
+import { MainPage } from './ui/pages/Main/Main';
+import { StatPage } from './ui/pages/Stat/Stat';
+import { NavBar } from './ui/components/NavBar/NavBar';
 
 function App() {
     return (
         <AppLayout>
-            <HStack spacing={0} alignItems={'stretch'} height={600}>
-                <TodayWidget />
-                <PlansControl />
-            </HStack>
-            <Stat />
+            <NavBar />
+            <Routes>
+                <Route element={<MainPage />} path='/' />
+                <Route element={<StatPage />} path='/stat' />
+            </Routes>
         </AppLayout>
     );
 }
