@@ -10,10 +10,9 @@ export const generateLongPlanID = (plan: IGenerateLongPlanIDParams) => {
 
 interface IGenerateDailyPlanIDParams {
     dealName: string;
-    weekdays: Array<number>;
-    count: number;
+    weekdaysCount: Array<number>;
 }
 
 export const generateDailyPlanID = (plan: IGenerateDailyPlanIDParams) => {
-    return plan.dealName + plan.weekdays.toString() + plan.count.toString();
+    return plan.dealName + plan.weekdaysCount.toString();
 };

@@ -17,7 +17,7 @@ export const TodayWidget = () => {
 
     const currentDate = new Date();
     const currentWeekday = (currentDate.getDay() + 6) % 7;
-    const todayPlans = dailyPlans.filter(dailyPlan => dailyPlan.weekdays?.includes(currentWeekday));
+    const todayPlans = dailyPlans.filter(dailyPlan => dailyPlan.weekdaysCount[currentWeekday] > 0);
 
     const otherDeals = deals.filter(deal => !todayPlans.some(plan => plan.deal.name === deal.name));
 
@@ -40,18 +40,18 @@ export const TodayWidget = () => {
     };
 
     return (
-        <BaseCard>
+        <BaseCard minWidth={550}>
             <CardHeader>
                 <Heading>Today ({WeekdaysNames[currentWeekday]})</Heading>
             </CardHeader>
             <CardBody overflowY={'auto'}>
                 <Text>Planned deals:</Text>
-                {todayPlans.map(({ deal, count }, index) => (
+                {todayPlans.map(({ deal, weekdaysCount }, index) => (
                     <TodayItem
                         onDo={() => handleTodayItemDo(deal)}
                         onUndo={() => handleTodayItemUndo(deal)}
                         deal={deal}
-                        count={count}
+                        count={weekdaysCount[currentWeekday]}
                         done={todayHistory?.done[deal.name] ?? 0}
                         key={deal.name + index}
                         canUndo={(todayHistory?.done[deal.name] ?? 0) > 0}

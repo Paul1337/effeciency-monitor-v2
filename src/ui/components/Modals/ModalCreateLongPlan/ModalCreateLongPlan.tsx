@@ -74,7 +74,7 @@ export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = props => {
                     id='new-old-deal'
                     size={'md'}
                     isChecked={isCreatingNewDeal}
-                    onChange={e => setCreatingNewDeal(e.target.checked)}
+                    onChange={e => deals.length > 0 && setCreatingNewDeal(e.target.checked)}
                 />
             </FormControl>
             {isCreatingNewDeal || !deal ? (

@@ -5,9 +5,11 @@ import { RootState, useAppDispatch } from '../../../../domain/redux/store';
 import { useSelector } from 'react-redux';
 import { IDeal } from '../../../../domain/entities/Deal/model';
 import { DealSelector } from '../../DealSelector/DealSelector';
-import { WeekdaysSelector } from '../../WeekdaysSelector/WeekdaysSelector';
 import { thunkCreateDeal } from '../../../../domain/redux/services/deal/createDeal';
 import { thunkCreateDailyPlan } from '../../../../domain/redux/services/plan/createPlan/createDailyPlan';
+import { WeekdaysCountSelector } from '../../WeekdaysCountSelector/WeekdaysCountSelector';
+import { TWeekdaysCount } from '../../../../domain/entities/PlanItem/model';
+import { WeekdaysNames } from '../../../shared/weekdays';
 
 interface IModalCreateDailyPlanProps {
     isOpen: boolean;
@@ -18,19 +20,21 @@ const config = {
     defaultPlanCount: 1,
 };
 
-const AllWeekdays = [0, 1, 2, 3, 4, 5, 6];
-
 export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
     const dispatch = useAppDispatch();
     const { isOpen, onClose } = props;
 
-    const [planCount, setPlanCount] = useState(config.defaultPlanCount);
-    const deals = useSelector((state: RootState) => state.deals.deals);
+    // const [planCount, setPlanCount] = useState(config.defaultPlanCount);
+    const [weekdaysCount, setWeekdaysCount] = useState(
+        WeekdaysNames.map(w => config.defaultPlanCount) as TWeekdaysCount
+    );
+    const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
+    const allDeals = useSelector((state: RootState) => state.deals.deals);
+    const deals = allDeals.filter(deal => !dailyPlans.some(plan => plan.deal.name === deal.name));
     const [deal, setDeal] = useState<IDeal | null>(deals[0]);
 
     const [isCreatingNewDeal, setCreatingNewDeal] = useState(false);
     const [dealTextName, setDealTextName] = useState('');
-    const [weekdays, setWeekdays] = useState(AllWeekdays);
 
     useEffect(() => {
         setCreatingNewDeal(!Boolean(deals[0]));
@@ -44,9 +48,8 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
         }
         dispatch(
             thunkCreateDailyPlan({
-                count: planCount,
                 dealName: isCreatingNewDeal ? dealTextName : (deal as IDeal).name,
-                weekdays,
+                weekdaysCount,
             })
         );
         onClose?.();
@@ -60,13 +63,13 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
             onAction={handleAction}
             title='Creating daily plan'
         >
-            <WeekdaysSelector value={weekdays} onChange={value => setWeekdays(value)} />
             <FormLabel>Plan count:</FormLabel>
-            <Input
+            {/* <Input
                 type='number'
                 onChange={e => setPlanCount(Number(e.target.value))}
                 value={planCount.toString()}
-            />
+            /> */}
+            <WeekdaysCountSelector value={weekdaysCount} onChange={val => setWeekdaysCount(val)} />
             <FormControl display={'flex'} my={2} alignItems={'center'}>
                 <FormLabel margin={0} mr={2}>
                     Create new deal:
@@ -75,7 +78,7 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
                     id='new-old-deal'
                     size={'md'}
                     isChecked={isCreatingNewDeal}
-                    onChange={e => setCreatingNewDeal(e.target.checked)}
+                    onChange={e => deals.length > 0 && setCreatingNewDeal(e.target.checked)}
                 />
             </FormControl>
             {isCreatingNewDeal || !deal ? (

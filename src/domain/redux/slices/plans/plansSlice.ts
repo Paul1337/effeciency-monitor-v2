@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IPlansSliceScheme } from './types';
 import { IDailyPlan, IPlanItem } from '../../../entities/PlanItem/model';
-import { IDeal } from '../../../entities/Deal/model';
 
 const initialState: IPlansSliceScheme = {
     longPlans: [],
@@ -22,13 +21,13 @@ const plansSlice = createSlice({
             state.dailyPlans = action.payload.dailyPlans ?? [];
         },
         addLongPlan(state: IPlansSliceScheme, action: PayloadAction<IPlanItem>) {
-            const samePlan = (plan: IPlanItem) => plan.id === action.payload.id;
+            const samePlan = (plan: IPlanItem) => plan.deal.name === action.payload.deal.name;
             if (!state.longPlans.find(samePlan)) {
                 state.longPlans.push(action.payload);
             }
         },
         addDailyPlan(state: IPlansSliceScheme, action: PayloadAction<IDailyPlan>) {
-            const samePlan = (plan: IDailyPlan) => plan.id === action.payload.id;
+            const samePlan = (plan: IDailyPlan) => plan.deal.name === action.payload.deal.name;
             if (!state.dailyPlans.find(samePlan)) {
                 state.dailyPlans.push(action.payload);
             }

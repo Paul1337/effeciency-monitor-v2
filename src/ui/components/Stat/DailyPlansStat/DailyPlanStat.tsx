@@ -9,12 +9,13 @@ import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
 import { config } from './config';
 import { Heading } from '@chakra-ui/react';
 import { compareDays } from '../../../../domain/shared/dates/compareDates';
+import { OverallDailyPlanInfo } from './OverallDailyPlanInfo';
 
 interface IDailyPlanStatProps {
-    dealName: string;
+    plan: IDailyPlan;
 }
 
-const buildData = (dealName: string, historyItems: IHistoryItem[], dailyPlans: IDailyPlan[]) => {
+const buildData = (plan: IDailyPlan, historyItems: IHistoryItem[], dailyPlans: IDailyPlan[]) => {
     const data = [];
     const currentDate = new Date();
     const currentWeekday = (currentDate.getDay() + 6) % 7;
@@ -22,12 +23,15 @@ const buildData = (dealName: string, historyItems: IHistoryItem[], dailyPlans: I
     for (let i = config.lastDaysCount - 1; i >= 0; i--) {
         const indexDay = incrementDays(currentDate, -i);
 
-        const done =
-            historyItems.find(item => compareDays(indexDay, item.date) === 0)?.done[dealName] ?? 0;
-        const todo =
-            dailyPlans.find(
-                plan => plan.deal.name === dealName && plan.weekdays.includes(currentWeekday)
-            )?.count ?? 0;
+        // const done =
+        //     historyItems.find(item => compareDays(indexDay, item.date) === 0)?.done[dealName] ?? 0;
+        // const todo =
+        //     dailyPlans.find(plan => plan.id === planID && plan.weekdays.includes(currentWeekday))
+        //         ?.count ?? 0;
+
+        const done = 0;
+        const todo = 0;
+
         const percent = todo === 0 ? 100 : Number(((done / todo) * 100).toFixed(1));
         data.push({
             name: stringifyDate(indexDay),
@@ -38,15 +42,15 @@ const buildData = (dealName: string, historyItems: IHistoryItem[], dailyPlans: I
 };
 
 export const DailyPlanStat: FC<IDailyPlanStatProps> = props => {
-    const { dealName } = props;
+    const { plan } = props;
     const historyItems = useSelector((state: RootState) => state.history.items);
     const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
-
-    const data = buildData(dealName, historyItems, dailyPlans);
+    const data = buildData(plan, historyItems, dailyPlans);
 
     return (
         <>
-            <Heading mb={2}>{dealName}</Heading>
+            <Heading mb={2}>{plan.deal.name}</Heading>
+            <OverallDailyPlanInfo plan={plan} />
             <ResponsiveContainer width={'100%'} height={300}>
                 <LineChart data={data}>
                     <Line type='monotone' dataKey='value' stroke='#8884d8' />

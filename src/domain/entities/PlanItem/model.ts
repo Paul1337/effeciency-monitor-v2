@@ -5,10 +5,11 @@ export enum EPlanType {
     Long,
 }
 
+export type TWeekdaysCount = [number, number, number, number, number, number, number];
+
 export interface IDailyPlan {
     deal: IDeal;
-    count: number;
-    weekdays: Array<number>;
+    weekdaysCount: TWeekdaysCount;
     id: string;
 }
 

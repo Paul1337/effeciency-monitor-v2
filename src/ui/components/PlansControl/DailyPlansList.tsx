@@ -15,45 +15,31 @@ export const DailyPlansList = () => {
 
     return (
         <TableContainer>
-            <Table variant='simple'>
+            <Table variant='simple' size={'sm'}>
                 <Thead>
                     <Tr>
                         <Th>Deal</Th>
-                        <Th>Weekdays</Th>
-                        <Th isNumeric>Count</Th>
+                        {WeekdaysNames.map(wd => (
+                            <Th key={wd} isNumeric>
+                                {wd.substring(0, 3)}
+                            </Th>
+                        ))}
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {dailyPlans.map((plan, index) => {
-                        const weekDaysFormatted =
-                            plan.weekdays.length <= WeekdaysNames.length / 2 ? (
-                                plan.weekdays.map(weekdayInd => (
-                                    <span key={WeekdaysNames[weekdayInd]}>
-                                        {WeekdaysNames[weekdayInd]}{' '}
-                                    </span>
-                                ))
-                            ) : (
-                                <>
-                                    <span>* {plan.weekdays.length < WeekdaysNames.length && ' / '}</span>
-                                    {WeekdaysNames.filter(
-                                        (weekName, index) => !plan.weekdays.includes(index)
-                                    ).map(weekName => (
-                                        <span key={weekName}>{weekName} </span>
-                                    ))}
-                                </>
-                            );
-
-                        return (
-                            <Tr key={plan.id ?? plan.deal.name + index}>
-                                <Td>{plan.deal.name}</Td>
-                                <Td>{weekDaysFormatted}</Td>
-                                <Td isNumeric>{plan.count}</Td>
-                                <Td display={'flex'} justifyContent={'flex-end'}>
-                                    <Button onClick={() => handleRemovePlanClick(plan)}>&times;</Button>
+                    {dailyPlans.map((plan, index) => (
+                        <Tr key={plan.id ?? plan.deal.name + index}>
+                            <Td>{plan.deal.name}</Td>
+                            {plan.weekdaysCount.map((wdCount, ind) => (
+                                <Td key={wdCount.toString() + ind} textAlign={'center'}>
+                                    {wdCount}
                                 </Td>
-                            </Tr>
-                        );
-                    })}
+                            ))}
+                            <Td display={'flex'} justifyContent={'flex-end'}>
+                                <Button onClick={() => handleRemovePlanClick(plan)}>&times;</Button>
+                            </Td>
+                        </Tr>
+                    ))}
                 </Tbody>
             </Table>
         </TableContainer>
