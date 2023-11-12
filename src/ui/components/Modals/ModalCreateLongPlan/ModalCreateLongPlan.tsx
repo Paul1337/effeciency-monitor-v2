@@ -23,8 +23,10 @@ export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = props => {
     const dispatch = useAppDispatch();
     const { isOpen, onClose } = props;
 
+    const longPlans = useSelector((state: RootState) => state.plans.longPlans);
     const [planCount, setPlanCount] = useState(config.defaultPlanCount);
-    const deals = useSelector((state: RootState) => state.deals.deals);
+    const allDeals = useSelector((state: RootState) => state.deals.deals);
+    const deals = allDeals.filter(deal => !longPlans.some(plan => plan.deal.name === deal.name));
     const [deal, setDeal] = useState<IDeal | null>(deals[0]);
 
     const [isCreatingNewDeal, setCreatingNewDeal] = useState(false);
