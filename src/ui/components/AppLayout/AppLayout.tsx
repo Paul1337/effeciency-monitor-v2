@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+import cls from './AppLayout.module.css';
 
 interface IAppLayoutProps {
     children: ReactNode;
@@ -6,5 +7,5 @@ interface IAppLayoutProps {
 
 export const AppLayout: FC<IAppLayoutProps> = props => {
     const { children } = props;
-    return <div>{children}</div>;
+    return <div className={cls.layout}>{children}</div>;
 };

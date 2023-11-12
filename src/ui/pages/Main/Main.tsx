@@ -5,7 +5,7 @@ import { TodayWidget } from '../../../ui/components/TodayWidget/TodayWidget';
 
 export const MainPage = () => {
     return (
-        <HStack spacing={0} alignItems={'stretch'} height={600}>
+        <HStack spacing={0} alignItems={'stretch'} flex={1}>
             <TodayWidget />
             <PlansControl />
         </HStack>
