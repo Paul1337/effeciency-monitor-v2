@@ -15,7 +15,7 @@ interface IDailyPlanStatProps {
     plan: IDailyPlan;
 }
 
-const buildData = (plan: IDailyPlan, historyItems: IHistoryItem[], dailyPlans: IDailyPlan[]) => {
+const buildData = (plan: IDailyPlan, historyItems: IHistoryItem[]) => {
     const data = [];
     const currentDate = new Date();
     const currentWeekday = (currentDate.getDay() + 6) % 7;
@@ -23,14 +23,11 @@ const buildData = (plan: IDailyPlan, historyItems: IHistoryItem[], dailyPlans: I
     for (let i = config.lastDaysCount - 1; i >= 0; i--) {
         const indexDay = incrementDays(currentDate, -i);
 
-        // const done =
-        //     historyItems.find(item => compareDays(indexDay, item.date) === 0)?.done[dealName] ?? 0;
-        // const todo =
-        //     dailyPlans.find(plan => plan.id === planID && plan.weekdays.includes(currentWeekday))
-        //         ?.count ?? 0;
+        const done =
+            historyItems.find(item => compareDays(indexDay, item.date) === 0)?.done[plan.deal.name] ?? 0;
+        const todo = plan.weekdaysCount[currentWeekday];
 
-        const done = 0;
-        const todo = 0;
+        // console.log(todo);
 
         const percent = todo === 0 ? 100 : Number(((done / todo) * 100).toFixed(1));
         data.push({
@@ -44,8 +41,7 @@ const buildData = (plan: IDailyPlan, historyItems: IHistoryItem[], dailyPlans: I
 export const DailyPlanStat: FC<IDailyPlanStatProps> = props => {
     const { plan } = props;
     const historyItems = useSelector((state: RootState) => state.history.items);
-    const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
-    const data = buildData(plan, historyItems, dailyPlans);
+    const data = buildData(plan, historyItems);
 
     return (
         <>

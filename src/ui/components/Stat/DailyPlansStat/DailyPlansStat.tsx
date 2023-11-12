@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { DailyPlanStat } from './DailyPlanStat';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../domain/redux/store';
@@ -8,7 +7,7 @@ export const DailyPlansStat = () => {
     return (
         <>
             {dailyPlans.map(plan => (
-                <DailyPlanStat dealName={plan.deal.name} key={plan.id} />
+                <DailyPlanStat plan={plan} key={plan.id} />
             ))}
         </>
     );
