@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../domain/redux/store';
 import { IDeal } from '../../../domain/entities/Deal/model';
 import { Select } from 'chakra-react-select';
 import { FormLabel, Text } from '@chakra-ui/react';
@@ -8,20 +6,16 @@ import { FormLabel, Text } from '@chakra-ui/react';
 interface IDealSelectorProps {
     onSelect: (deal: IDeal) => void;
     value: IDeal;
-    filter?: (deal: IDeal) => boolean;
+    dealsOptions: IDeal[];
 }
 
 const mapDealToSelectOption = (deal: IDeal) => ({ label: deal.name, value: deal.name });
 
-export const DealSelector: FC<IDealSelectorProps> = props => {
-    const { onSelect, value, filter } = props;
-
-    const deals = useSelector((state: RootState) => state.deals.deals);
-    const dealsFiltered = filter ? deals.filter(filter) : deals;
+export const DealSelector: FC<IDealSelectorProps> = (props) => {
+    const { onSelect, value, dealsOptions } = props;
 
     const handleDealSelect = (e: any) => {
-        const value = e.value;
-        const newSelectedDeal = dealsFiltered.find(({ name }) => name === value) as IDeal;
+        const newSelectedDeal = dealsOptions.find((deal) => deal.name === e.value) as IDeal;
         onSelect(newSelectedDeal);
     };
 
@@ -31,7 +25,7 @@ export const DealSelector: FC<IDealSelectorProps> = props => {
             <Select
                 onChange={handleDealSelect}
                 value={{ label: value.name, value: value.name }}
-                options={dealsFiltered.map(mapDealToSelectOption)}
+                options={dealsOptions.map(mapDealToSelectOption)}
             />
         </>
     );
