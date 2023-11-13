@@ -5,17 +5,7 @@ import { config } from './config';
 import { incrementDays } from '../../../../domain/shared/dates/datesOperations';
 import { compareDays } from '../../../../domain/shared/dates/compareDates';
 import { stringifyDate } from '../../../../domain/shared/dates/stringifyDate';
-
-interface IChartItem {
-    name: string;
-    value: number;
-}
-
-export enum EInfoItems {
-    success,
-    crisis,
-    crisisCount,
-}
+import { EInfoItems, IChartItem } from './model';
 
 interface IUseDataResult {
     chartData: Array<IChartItem>;

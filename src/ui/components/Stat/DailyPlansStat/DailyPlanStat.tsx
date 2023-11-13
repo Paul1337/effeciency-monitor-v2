@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { RootState } from '../../../../domain/redux/store';
-import { FC } from 'react';
-import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
 import { Heading } from '@chakra-ui/react';
+import { FC } from 'react';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
 import { OverallDailyPlanInfo } from './OverallDailyPlanInfo';
 import { useData } from './useData';
 

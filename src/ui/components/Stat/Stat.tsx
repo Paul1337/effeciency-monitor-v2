@@ -24,7 +24,7 @@ export const Stat = () => {
                     <TabList>
                         <Tab>Daily plans</Tab>
                         <Tab>Long plans</Tab>
-                        <Tab>Deals</Tab>
+                        {/* <Tab>Deals</Tab> */}
                     </TabList>
                     <TabPanels overflow={'auto'}>
                         <TabPanel>
@@ -33,9 +33,9 @@ export const Stat = () => {
                         <TabPanel>
                             <LongPlansStat />
                         </TabPanel>
-                        <TabPanel>
+                        {/* <TabPanel>
                             <DealsStat />
-                        </TabPanel>
+                        </TabPanel> */}
                     </TabPanels>
                 </Tabs>
             </CardBody>
