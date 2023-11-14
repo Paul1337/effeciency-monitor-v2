@@ -1,15 +1,11 @@
-import { FC, useEffect, useState } from 'react';
-import { BasicModal } from '../Modal/Modal';
-import { FormControl, FormLabel, Input, Switch } from '@chakra-ui/react';
-import { RootState, useAppDispatch } from '../../../../domain/redux/store';
-import { useSelector } from 'react-redux';
-import { IDeal } from '../../../../domain/entities/Deal/model';
-import { DealSelector } from '../../DealSelector/DealSelector';
-import { thunkCreateDeal } from '../../../../domain/redux/services/deal/createDeal';
+import { FormLabel, Input } from '@chakra-ui/react';
 import { SingleDatepicker } from 'chakra-dayzed-datepicker';
+import { FC, useState } from 'react';
 import { thunkCreateLongPlan } from '../../../../domain/redux/services/plan/createPlan/createLongPlan';
+import { useAppDispatch } from '../../../../domain/redux/store';
 import { stringifyDate } from '../../../../domain/shared/dates/stringifyDate';
 import { AppDealSelector } from '../../DealSelector/AppDealSelector';
+import { BasicModal } from '../Modal/Modal';
 
 interface IModalCreateLongPlanProps {
     isOpen: boolean;

@@ -1,17 +1,20 @@
 import { Box, HStack } from '@chakra-ui/react';
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { config } from './config';
+import { RootState } from '../../../domain/redux/store';
+import { INavItem, useNavItems } from './useNavItems';
 
-type TNavlink = (typeof config.navLinks)[0];
-const getNavlinkKey = (navLink: TNavlink, index: number) => navLink.text + navLink.to + index;
+const getNavItemKey = (navLink: INavItem, index: number) => navLink.text + navLink.to + index;
 
 export const NavBar = () => {
+    const isLogged = useSelector((state: RootState) => state.user.isLogged);
+    const navItems = useNavItems(isLogged);
+
     return (
-        <HStack m={3}>
-            {config.navLinks.map((navLink, index) => (
-                <Box key={getNavlinkKey(navLink, index)} padding={'4px'} minW={100} textAlign={'center'}>
-                    <Link to={navLink.to}>{navLink.text}</Link>
+        <HStack m={3} borderBottom={'1px solid'} borderColor={'gray.200'}>
+            {navItems.map((navItem, index) => (
+                <Box key={getNavItemKey(navItem, index)} padding={'4px'} minW={100} textAlign={'center'}>
+                    <Link to={navItem.to}>{navItem.text}</Link>
                 </Box>
             ))}
         </HStack>

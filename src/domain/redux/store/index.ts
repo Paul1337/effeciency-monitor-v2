@@ -3,12 +3,14 @@ import { dealsReducer } from '../slices/deals/dealsSlice';
 import { useDispatch } from 'react-redux';
 import { historyReducer } from '../slices/history/historySlice';
 import { plansReducer } from '../slices/plans/plansSlice';
+import { userReducer } from '../slices/user/userSlice';
 
 export const store = configureStore({
     reducer: combineReducers({
         deals: dealsReducer,
         history: historyReducer,
         plans: plansReducer,
+        user: userReducer,
     }),
 });
 
