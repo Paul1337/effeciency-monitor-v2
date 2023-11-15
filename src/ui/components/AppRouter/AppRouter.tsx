@@ -3,12 +3,12 @@ import { MainPage } from '../../pages/Main/Main';
 import { StatPage } from '../../pages/Stat/Stat';
 import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
 import { AppRoutes } from '../../../domain/router/config';
-import { AuthenticationPage } from '../../pages/AuthenticationPage/AuthenticationPage';
+import { AuthenticationPage, EAuthType } from '../../pages/AuthenticationPage/AuthenticationPage';
 
 export const AppRouter = () => {
     return (
         <Routes>
-            <Route element={<AuthenticationPage />} path={AppRoutes.Auth} />
+            <Route element={<AuthenticationPage authType={EAuthType.Login} />} path={AppRoutes.Auth} />
             <Route element={<PrivateRoute />} path='/'>
                 <Route element={<MainPage />} path={AppRoutes.Main} />
                 <Route element={<StatPage />} path={AppRoutes.Stat} />
