@@ -8,7 +8,7 @@ import { AuthenticationPage, EAuthType } from '../../pages/AuthenticationPage/Au
 export const AppRouter = () => {
     return (
         <Routes>
-            <Route element={<AuthenticationPage authType={EAuthType.Login} />} path={AppRoutes.Auth} />
+            <Route element={<AuthenticationPage />} path={AppRoutes.Auth} />
             <Route element={<PrivateRoute />} path='/'>
                 <Route element={<MainPage />} path={AppRoutes.Main} />
                 <Route element={<StatPage />} path={AppRoutes.Stat} />

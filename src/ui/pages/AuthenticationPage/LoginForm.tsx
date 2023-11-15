@@ -1,4 +1,4 @@
-import { Button, Card, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
+import { Button, Card, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 
 export const LoginForm = () => {
@@ -9,21 +9,19 @@ export const LoginForm = () => {
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
     return (
-        <Flex justifyContent={'center'}>
-            <Card p={2} m={2} w={400}>
-                <Heading textAlign={'center'} m={3}>
-                    Login
-                </Heading>
-                <FormControl>
-                    <FormLabel>Email</FormLabel>
-                    <Input value={email} onChange={handleEmailChange} />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Password</FormLabel>
-                    <Input value={password} onChange={handlePasswordChange} />
-                </FormControl>
-                <Button mt={3}>Login</Button>
-            </Card>
-        </Flex>
+        <Card p={2} m={2} w={400}>
+            <Heading textAlign={'center'} m={3}>
+                Login
+            </Heading>
+            <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input value={email} onChange={handleEmailChange} />
+            </FormControl>
+            <FormControl>
+                <FormLabel>Password</FormLabel>
+                <Input value={password} onChange={handlePasswordChange} />
+            </FormControl>
+            <Button mt={3}>Login</Button>
+        </Card>
     );
 };
