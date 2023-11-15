@@ -12,6 +12,9 @@ export const userSlice = createSlice({
         setLogged(state: IUserSliceScheme, action: PayloadAction<boolean>) {
             state.isLogged = action.payload;
         },
+        logout(state: IUserSliceScheme) {
+            state.isLogged = false;
+        },
     },
 });
 

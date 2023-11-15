@@ -7,7 +7,7 @@ import { IPlansSliceScheme } from '../slices/plans/types';
 import { AppThunk } from '../store';
 
 export const thunkLoadData = (): AppThunk => {
-    return dispatch => {
+    return (dispatch) => {
         const dealsStr = localStorage.getItem(localStorageConfig.DealsKey);
         if (dealsStr) dispatch(dealsActions.setDeals(JSON.parse(dealsStr)));
 
@@ -19,11 +19,18 @@ export const thunkLoadData = (): AppThunk => {
             const plans = JSON.parse(plansStr) as IPlansSliceScheme;
             for (const plan of plans.dailyPlans) {
                 if (plan.id) continue;
-                plan.id = generateDailyPlanID(plan);
+                plan.id = generateDailyPlanID({
+                    dealName: plan.deal.name,
+                    weekdaysCount: plan.weekdaysCount,
+                });
             }
             for (const plan of plans.longPlans) {
                 if (plan.id) continue;
-                plan.id = generateLongPlanID(plan);
+                plan.id = generateLongPlanID({
+                    dealName: plan.deal.name,
+                    date: plan.date,
+                    count: plan.count,
+                });
             }
             dispatch(plansActions.setData(plans));
         }

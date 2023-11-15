@@ -1,3 +1,5 @@
+import { AppRoutes } from '../../../domain/router/config';
+
 export interface INavItem {
     to: string;
     text: string;
@@ -6,24 +8,19 @@ export interface INavItem {
 export const useNavItems = (isLogged: boolean): INavItem[] => {
     return [
         {
-            to: '/',
+            to: AppRoutes.Main,
             text: 'Main',
             show: isLogged,
         },
         {
-            to: '/stat',
+            to: AppRoutes.Stat,
             text: 'Stat',
             show: isLogged,
         },
         {
-            to: '/reg_log',
-            text: 'Register & Login',
+            to: AppRoutes.Auth,
+            text: 'Register / Login',
             show: !isLogged,
-        },
-        {
-            to: '/logout',
-            text: 'Log out',
-            show: isLogged,
         },
     ].filter((item) => item.show);
 };

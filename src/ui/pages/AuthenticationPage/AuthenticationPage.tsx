@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const Authentication = () => {
+export const AuthenticationPage = () => {
     return <div>Authentication</div>;
 };
