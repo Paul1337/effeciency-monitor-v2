@@ -31,7 +31,7 @@ export const BasicModal: FC<IBasicModalProps> = props => {
                 <ModalBody>{children}</ModalBody>
 
                 <ModalFooter>
-                    <Button colorScheme='blue' mr={3} onClick={onAction}>
+                    <Button colorScheme='green' mr={3} onClick={onAction}>
                         {action}
                     </Button>
                     <Button variant='ghost' onClick={() => onClose?.()}>

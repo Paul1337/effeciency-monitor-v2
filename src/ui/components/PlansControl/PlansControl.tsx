@@ -25,16 +25,12 @@ export const PlansControl = () => {
     const [showModalCreateDailyPlan, setShowModalCreateDailyPlan] = useState(false);
     const [showModalCreateLongPlan, setShowModalCreateLongPlan] = useState(false);
 
-    const handleCreateDailyPlanClick = () => {
-        setShowModalCreateDailyPlan(true);
-    };
-    const handleCreateLongPlanClick = () => {
-        setShowModalCreateLongPlan(true);
-    };
+    const handleCreateDailyPlanClick = () => setShowModalCreateDailyPlan(true);
+    const handleCreateLongPlanClick = () => setShowModalCreateLongPlan(true);
 
     return (
         <>
-            <Tabs flex={1} display={'flex'}>
+            <Tabs flex={1} display={'flex'} colorScheme='green'>
                 <BaseCard flex={1}>
                     <CardHeader>
                         <Heading>Plans</Heading>
@@ -43,7 +39,7 @@ export const PlansControl = () => {
                             <Tab>Long-time</Tab>
                         </TabList>
                     </CardHeader>
-                    <CardBody overflowY={'auto'}>
+                    <CardBody overflowY={'auto'} width={'750px'}>
                         <TabPanels>
                             <TabPanel>
                                 <DailyPlansList />

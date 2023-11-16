@@ -10,12 +10,12 @@ interface IDailyDealSelectorProps {
     plansKey?: keyof RootState['plans'];
 }
 
-export const AppDealSelector: FC<IDailyDealSelectorProps> = (props) => {
+export const AppDealSelector: FC<IDailyDealSelectorProps> = props => {
     const { onSelect, plansKey = 'dailyPlans' } = props;
 
     const allDeals = useSelector((state: RootState) => state.deals.deals);
     const dailyPlans = useSelector((state: RootState) => state.plans[plansKey]);
-    const deals = allDeals.filter((deal) => !dailyPlans.some((plan) => plan.deal.name === deal.name));
+    const deals = allDeals.filter(deal => !dailyPlans.some(plan => plan.deal.name === deal.name));
 
     const [dealTextName, setDealTextName] = useState('');
     const [deal, setDeal] = useState<IDeal | null>(deals[0]);
@@ -47,8 +47,9 @@ export const AppDealSelector: FC<IDailyDealSelectorProps> = (props) => {
                 <Switch
                     id='new-old-deal'
                     size={'md'}
+                    colorScheme='green'
                     isChecked={isCreatingNewDeal}
-                    onChange={(e) => deals.length > 0 && setCreatingNewDeal(e.target.checked)}
+                    onChange={e => deals.length > 0 && setCreatingNewDeal(e.target.checked)}
                 />
             </FormControl>
             {isCreatingNewDeal || !deal ? (
@@ -57,7 +58,7 @@ export const AppDealSelector: FC<IDailyDealSelectorProps> = (props) => {
                     <Input
                         type='text'
                         value={dealTextName}
-                        onChange={(e) => setDealTextName(e.target.value)}
+                        onChange={e => setDealTextName(e.target.value)}
                     />
                 </>
             ) : (

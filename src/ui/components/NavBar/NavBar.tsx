@@ -1,6 +1,6 @@
 import { Box, Button, HStack } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { RootState } from '../../../domain/redux/store';
 import { INavItem, useNavItems } from './useNavItems';
 import { userActions } from '../../../domain/redux/slices/user/userSlice';
@@ -32,7 +32,14 @@ export const NavBar = () => {
                         minW={100}
                         textAlign={'center'}
                     >
-                        <Link to={navItem.to}>{navItem.text}</Link>
+                        <NavLink
+                            to={navItem.to}
+                            style={({ isActive }) =>
+                                isActive ? { color: '#007200', fontWeight: 700 } : undefined
+                            }
+                        >
+                            {navItem.text}
+                        </NavLink>
                     </Box>
                 ))}
             </HStack>
