@@ -1,5 +1,7 @@
-import { Button, Card, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { Button, Card, FormControl, FormLabel, Heading, Input, Text } from '@chakra-ui/react';
+import { ChangeEvent, useContext, useState } from 'react';
+import { AuthContext } from './AuthContext';
+import { EAuthType } from './AuthenticationPage';
 
 export const RegisterForm = () => {
     const [password, setPassword] = useState('');
@@ -10,6 +12,10 @@ export const RegisterForm = () => {
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
     const handleRepeatedPasswordChange = (e: ChangeEvent<HTMLInputElement>) =>
         setRepeatedPassword(e.target.value);
+
+    const authContext = useContext(AuthContext);
+
+    const handleLoginClick = () => authContext?.setAuthType(EAuthType.Login);
 
     return (
         <Card p={2} m={2} w={400}>
@@ -29,6 +35,9 @@ export const RegisterForm = () => {
                 <Input value={repeatedPassword} onChange={handleRepeatedPasswordChange} />
             </FormControl>
             <Button mt={3}>Register</Button>
+            <Text color={'red'} m={2} cursor={'pointer'} textAlign={'center'} onClick={handleLoginClick}>
+                Already have an account? Click here to log in
+            </Text>
         </Card>
     );
 };

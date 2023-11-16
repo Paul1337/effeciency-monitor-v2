@@ -2,6 +2,7 @@ import { FC, PropsWithChildren, ReactNode, useState } from 'react';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegForm';
 import { Flex } from '@chakra-ui/react';
+import { AuthContext } from './AuthContext';
 
 export enum EAuthType {
     Login,
@@ -33,5 +34,9 @@ export const AuthenticationPage: FC = props => {
             break;
     }
 
-    return <AuthenticationFormWrapper>{loginForm}</AuthenticationFormWrapper>;
+    return (
+        <AuthContext.Provider value={{ setAuthType }}>
+            <AuthenticationFormWrapper>{loginForm}</AuthenticationFormWrapper>
+        </AuthContext.Provider>
+    );
 };

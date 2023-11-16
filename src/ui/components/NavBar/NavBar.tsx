@@ -17,12 +17,25 @@ export const NavBar = () => {
     };
 
     return (
-        <HStack m={3} borderBottom={'1px solid'} borderColor={'gray.200'}>
-            {navItems.map((navItem, index) => (
-                <Box key={getNavItemKey(navItem, index)} padding={'4px'} minW={100} textAlign={'center'}>
-                    <Link to={navItem.to}>{navItem.text}</Link>
-                </Box>
-            ))}
+        <HStack
+            m={3}
+            pb={1}
+            borderBottom={'1px solid'}
+            justifyContent={'space-between'}
+            borderColor={'gray.200'}
+        >
+            <HStack>
+                {navItems.map((navItem, index) => (
+                    <Box
+                        key={getNavItemKey(navItem, index)}
+                        padding={'4px'}
+                        minW={100}
+                        textAlign={'center'}
+                    >
+                        <Link to={navItem.to}>{navItem.text}</Link>
+                    </Box>
+                ))}
+            </HStack>
             {isLogged && (
                 <Box>
                     <Button onClick={handleLogoutClick}>Log out</Button>

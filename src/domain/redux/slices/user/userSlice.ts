@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserSliceScheme } from './types';
 
 const initialState: IUserSliceScheme = {
-    isLogged: false,
+    isLogged: true,
 };
 
 export const userSlice = createSlice({
