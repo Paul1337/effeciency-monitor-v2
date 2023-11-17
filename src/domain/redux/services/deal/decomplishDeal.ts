@@ -1,5 +1,6 @@
 import localStorageConfig from '../../../config/localStorage/localStorageConfig';
 import { IDeal } from '../../../entities/Deal/model';
+import { stringifyDate } from '../../../shared/dates/datesOperations';
 import { historyActions } from '../../slices/history/historySlice';
 import { AppThunk } from '../../store';
 
@@ -9,7 +10,7 @@ export interface IDecomplishDealParams {
 }
 
 export const thunkDecomplishDeal = (params: IDecomplishDealParams): AppThunk => {
-    const { deal, date = new Date().toString() } = params;
+    const { deal, date = stringifyDate(new Date()) } = params;
 
     return (dispatch, getState) => {
         dispatch(historyActions.decomplishDeal({ deal, date }));

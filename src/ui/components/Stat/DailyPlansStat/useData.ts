@@ -2,20 +2,26 @@ import { useSelector } from 'react-redux';
 import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
 import { RootState } from '../../../../domain/redux/store';
 import { config } from './config';
-import { incrementDays } from '../../../../domain/shared/dates/datesOperations';
+import { incrementDays, stringifyDate } from '../../../../domain/shared/dates/datesOperations';
 import { compareDays } from '../../../../domain/shared/dates/compareDates';
-import { stringifyDate } from '../../../../domain/shared/dates/stringifyDate';
-import { EInfoItems, IChartItem } from './model';
+import { EChartType, EInfoItems, IChartItem } from './model';
+
+export type TChartsData = Record<EChartType, Array<IChartItem>>;
 
 interface IUseDataResult {
-    chartData: Array<IChartItem>;
+    chartsData: TChartsData;
     info: Record<EInfoItems, string>;
 }
 
 export const useData = (plan: IDailyPlan): IUseDataResult => {
     const historyItems = useSelector((state: RootState) => state.history.items);
 
-    const chartData = [];
+    const chartsData: TChartsData = {
+        [EChartType.DailyRelative]: [],
+        [EChartType.Accumulation]: [],
+        [EChartType.AccumulationRelative]: [],
+    };
+
     const currentDate = new Date();
     const currentWeekday = (currentDate.getDay() + 6) % 7;
 
@@ -24,17 +30,45 @@ export const useData = (plan: IDailyPlan): IUseDataResult => {
     let totalCrisis = 0;
     let crisisCount = 0;
 
-    for (let i = config.lastDaysCount - 1; i >= 0; i--) {
-        const indexDay = incrementDays(currentDate, -i);
+    let firstChartDay = incrementDays(currentDate, -config.lastDaysCount + 1);
+    let accumulationDone = historyItems.reduce((acc, item) => {
+        if (compareDays(plan.startDate, item.date) <= 0 && compareDays(item.date, firstChartDay) < 0) {
+            return acc + item.done[plan.deal.name];
+        }
+        return acc;
+    }, 0);
+    let accumulationTodo = 0;
+
+    let chartDays = 0;
+
+    for (let i = 0; i < config.lastDaysCount; i++) {
+        const indexDay = incrementDays(firstChartDay, i);
+        if (compareDays(plan.startDate, indexDay) > 0) continue;
+        chartDays++;
 
         const done =
             historyItems.find(item => compareDays(indexDay, item.date) === 0)?.done[plan.deal.name] ?? 0;
         const todo = plan.weekdaysCount[currentWeekday];
+        accumulationDone += done;
+        accumulationTodo += todo;
 
-        const percent = todo === 0 ? 100 : Number(((done / todo) * 100).toFixed(1));
-        chartData.push({
+        const accumulationDoneRelative = accumulationDone / accumulationTodo;
+
+        const dailyRelativePercent = todo === 0 ? 100 : Number(((done / todo) * 100).toFixed(1));
+
+        chartsData[EChartType.DailyRelative].push({
             name: stringifyDate(indexDay),
-            value: percent,
+            value: dailyRelativePercent,
+        });
+
+        chartsData[EChartType.Accumulation].push({
+            name: stringifyDate(indexDay),
+            value: accumulationDone,
+        });
+
+        chartsData[EChartType.AccumulationRelative].push({
+            name: stringifyDate(indexDay),
+            value: accumulationDoneRelative,
         });
 
         totalDone += done;
@@ -47,10 +81,10 @@ export const useData = (plan: IDailyPlan): IUseDataResult => {
     }
 
     return {
-        chartData,
+        chartsData,
         info: {
-            [EInfoItems.success]: (totalDone / totalTodo).toFixed(2) + '%',
-            [EInfoItems.crisis]: (totalCrisis / config.lastDaysCount).toFixed(2) + '%',
+            [EInfoItems.success]: ((totalDone / totalTodo) * 100).toFixed(2) + '%',
+            [EInfoItems.crisis]: ((totalCrisis / chartDays) * 100).toFixed(2) + '%',
             [EInfoItems.crisisCount]: crisisCount.toString(),
         },
     };

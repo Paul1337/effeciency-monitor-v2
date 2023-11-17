@@ -1,7 +1,7 @@
 import { updatePlansDataInStorage } from '../../../../data/localStorage/plans';
 import { generateLongPlanID } from '../../../../entities/PlanItem/lib';
 import { IPlanItem } from '../../../../entities/PlanItem/model';
-import { stringifyDate } from '../../../../shared/dates/stringifyDate';
+import { stringifyDate } from '../../../../shared/dates/datesOperations';
 import { plansActions } from '../../../slices/plans/plansSlice';
 import { AppThunk } from '../../../store';
 

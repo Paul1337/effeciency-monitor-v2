@@ -31,5 +31,11 @@ export const thunkRemoveLongPlan = (plan: IPlanItem): AppThunk => {
     return (dispatch, getState) => {
         dispatch(plansActions.removeLongPlanByID(plan.id));
         updatePlansDataInStorage(getState().plans);
+
+        if (isDealUseless(getState(), plan.deal)) {
+            dispatch(thunkRemoveDeal(plan.deal));
+            const dealsState = getState().deals.deals;
+            updateDealsDataInStorage(dealsState);
+        }
     };
 };

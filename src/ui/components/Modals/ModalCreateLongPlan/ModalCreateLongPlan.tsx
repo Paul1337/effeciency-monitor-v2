@@ -3,9 +3,9 @@ import { SingleDatepicker } from 'chakra-dayzed-datepicker';
 import { FC, useState } from 'react';
 import { thunkCreateLongPlan } from '../../../../domain/redux/services/plan/createPlan/createLongPlan';
 import { useAppDispatch } from '../../../../domain/redux/store';
-import { stringifyDate } from '../../../../domain/shared/dates/stringifyDate';
 import { AppDealSelector } from '../../DealSelector/AppDealSelector';
 import { BasicModal } from '../Modal/Modal';
+import { stringifyDate } from '../../../../domain/shared/dates/datesOperations';
 
 interface IModalCreateLongPlanProps {
     isOpen: boolean;
@@ -16,7 +16,7 @@ const config = {
     defaultPlanCount: 1,
 };
 
-export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = (props) => {
+export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = props => {
     const dispatch = useAppDispatch();
     const { isOpen, onClose } = props;
 
@@ -48,7 +48,7 @@ export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = (props) => {
             <FormLabel>Plan count:</FormLabel>
             <Input
                 type='number'
-                onChange={(e) => setPlanCount(Number(e.target.value))}
+                onChange={e => setPlanCount(Number(e.target.value))}
                 value={planCount.toString()}
             />
             <AppDealSelector plansKey='longPlans' onSelect={setDealName} />

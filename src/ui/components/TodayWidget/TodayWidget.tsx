@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../../domain/redux/store';
 import { TodayItem } from './TodayItem';
 import { WeekdaysNames } from '../../shared/weekdays';
-import { compareDays } from '../../../domain/shared/dates/compareDates';
+import { compareDays, sameDay } from '../../../domain/shared/dates/compareDates';
 import { IDeal } from '../../../domain/entities/Deal/model';
 import { thunkAccomplishDeal } from '../../../domain/redux/services/deal/accomplishDeal';
 import { thunkDecomplishDeal } from '../../../domain/redux/services/deal/decomplishDeal';
@@ -21,7 +21,7 @@ export const TodayWidget = () => {
 
     const otherDeals = deals.filter(deal => !todayPlans.some(plan => plan.deal.name === deal.name));
 
-    const todayHistory = historyItems.find(item => compareDays(item.date, currentDate) === 0);
+    const todayHistory = historyItems.find(item => sameDay(item.date, currentDate));
 
     const handleTodayItemDo = (deal: IDeal) => {
         dispatch(

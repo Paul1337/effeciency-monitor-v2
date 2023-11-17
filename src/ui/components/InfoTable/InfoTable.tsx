@@ -19,7 +19,7 @@ export const InfoTable: FC<IInfoTableProps> = props => {
 
     return (
         <TableContainer {...otherProps}>
-            <Table variant='simple' width={'150px'} border={'1px solid'} borderColor={'gray.300'}>
+            <Table variant='simple' borderColor={'gray.300'}>
                 <TableCaption>{title}</TableCaption>
                 <Tbody>
                     {Object.entries(info).map(([label, value]) => (

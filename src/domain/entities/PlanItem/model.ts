@@ -10,6 +10,7 @@ export type TWeekdaysCount = [number, number, number, number, number, number, nu
 export interface IDailyPlan {
     deal: IDeal;
     weekdaysCount: TWeekdaysCount;
+    startDate: string;
     id: string;
 }
 

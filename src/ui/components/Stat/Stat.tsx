@@ -12,14 +12,7 @@ export const Stat = () => {
             display={'flex'}
             flexDirection={'column'}
         >
-            <TabList
-                justifyContent={'center'}
-                mb={2}
-                p={2}
-                // background={'gray.50'}
-                // borderBottom={'1px solid'}
-                // borderColor={'blackAlpha.100'}
-            >
+            <TabList justifyContent={'center'} mb={2} p={2}>
                 <Tab transitionDuration={'.35s'}>Daily plans</Tab>
                 <Tab transitionDuration={'.35s'}>Long plans</Tab>
             </TabList>

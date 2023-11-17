@@ -1,7 +1,4 @@
-const makeDate = (date: Date | string) => {
-    if (typeof date === 'string') date = new Date(date);
-    return date;
-};
+import { makeDate } from './datesOperations';
 
 export const sameDay = (date1: Date | string, date2: Date | string) => {
     return compareDays(date1, date2) === 0;

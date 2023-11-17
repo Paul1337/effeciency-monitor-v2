@@ -8,3 +8,9 @@ export enum EInfoItems {
     crisis,
     crisisCount,
 }
+
+export enum EChartType {
+    DailyRelative = 'daily-relative',
+    Accumulation = 'accumulation',
+    AccumulationRelative = 'accumulation-relative',
+}
