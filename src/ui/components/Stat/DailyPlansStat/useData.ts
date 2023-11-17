@@ -39,6 +39,14 @@ export const useData = (plan: IDailyPlan): IUseDataResult => {
     }, 0);
     let accumulationTodo = 0;
 
+    let indexDay = incrementDays(currentDate, 0);
+    while (compareDays(indexDay, firstChartDay) < 0) {
+        const thatWeekday = (indexDay.getDay() + 6) % 7;
+
+        accumulationTodo += plan.weekdaysCount[thatWeekday];
+        indexDay = incrementDays(indexDay, 1);
+    }
+
     let chartDays = 0;
 
     for (let i = 0; i < config.lastDaysCount; i++) {
