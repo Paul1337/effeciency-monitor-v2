@@ -1,4 +1,4 @@
-import localStorageConfig from '../../config/localStorage/localStorageConfig';
+import localStorageConfig from '../../../config/localStorage/localStorageConfig';
 import { IPlansSliceScheme } from '../../redux/slices/plans/types';
 
 export const updatePlansDataInStorage = (plansData: IPlansSliceScheme) => {

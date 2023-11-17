@@ -1,7 +1,7 @@
 import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../../domain/redux/store';
-import { IDailyPlan } from '../../../domain/entities/PlanItem/model';
+import { IDailyPlan } from '../../../domain/models/PlanItem/model';
 import { WeekdaysNames } from '../../shared/weekdays';
 import { thunkRemoveDailyPlan } from '../../../domain/redux/services/plan/removePlan';
 

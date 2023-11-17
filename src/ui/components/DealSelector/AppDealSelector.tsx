@@ -3,7 +3,7 @@ import { DealSelector } from './DealSelector';
 import { FormControl, FormLabel, Input, Switch } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../domain/redux/store';
-import { IDeal } from '../../../domain/entities/Deal/model';
+import { IDeal } from '../../../domain/models/Deal/model';
 
 interface IDailyDealSelectorProps {
     onSelect: (dealName: string) => void;

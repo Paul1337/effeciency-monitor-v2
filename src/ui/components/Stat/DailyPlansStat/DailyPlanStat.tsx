@@ -11,7 +11,7 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
+import { IDailyPlan } from '../../../../domain/models/PlanItem/model';
 import { OverallDailyPlanInfo } from './OverallDailyPlanInfo';
 import { useData } from './useData';
 import { DefaultChartType } from './config';

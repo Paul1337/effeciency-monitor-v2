@@ -1,7 +1,7 @@
 import { updatePlansDataInStorage } from '../../../../data/localStorage/plans';
-import { generateDailyPlanID } from '../../../../entities/PlanItem/lib';
-import { IDailyPlan, TWeekdaysCount } from '../../../../entities/PlanItem/model';
-import { stringifyDate } from '../../../../shared/dates/datesOperations';
+import { generateDailyPlanID } from '../../../../models/PlanItem/lib';
+import { IDailyPlan, TWeekdaysCount } from '../../../../models/PlanItem/model';
+import { stringifyDate } from '../../../../../lib/dates/datesOperations';
 import { plansActions } from '../../../slices/plans/plansSlice';
 import { AppThunk } from '../../../store';
 import { thunkCreateDeal } from '../../deal/createDeal';

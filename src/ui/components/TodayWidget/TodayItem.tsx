@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { IDeal } from '../../../domain/entities/Deal/model';
+import { IDeal } from '../../../domain/models/Deal/model';
 
 interface ITodayItemProps {
     deal: IDeal;

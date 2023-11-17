@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IDealsSliceSchema } from './types';
-import { IDeal } from '../../../entities/Deal/model';
+import { IDeal } from '../../../models/Deal/model';
 
 const initialState: IDealsSliceSchema = {
     deals: [],

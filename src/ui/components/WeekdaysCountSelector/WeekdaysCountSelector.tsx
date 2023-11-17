@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TWeekdaysCount } from '../../../domain/entities/PlanItem/model';
+import { TWeekdaysCount } from '../../../domain/models/PlanItem/model';
 import { Box, Flex, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
 import { WeekdaysNames } from '../../shared/weekdays';
 

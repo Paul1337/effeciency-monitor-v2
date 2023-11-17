@@ -1,7 +1,7 @@
 import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
 import { updatePlansDataInStorage } from '../../../data/localStorage/plans';
-import { IDeal } from '../../../entities/Deal/model';
-import { IDailyPlan, IPlanItem } from '../../../entities/PlanItem/model';
+import { IDeal } from '../../../models/Deal/model';
+import { IDailyPlan, IPlanItem } from '../../../models/PlanItem/model';
 import { plansActions } from '../../slices/plans/plansSlice';
 import { AppThunk, RootState } from '../../store';
 import { thunkRemoveDeal } from '../deal/removeDeal';

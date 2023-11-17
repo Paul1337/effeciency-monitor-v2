@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IHistorySliceScheme } from './types';
-import { IHistoryItem } from '../../../entities/HistoryItem/model';
-import { IDeal } from '../../../entities/Deal/model';
-import { sameDay } from '../../../shared/dates/compareDates';
+import { IHistoryItem } from '../../../models/HistoryItem/model';
+import { IDeal } from '../../../models/Deal/model';
+import { sameDay } from '../../../../lib/dates/compareDates';
 
 const initialState: IHistorySliceScheme = {
     items: [],

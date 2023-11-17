@@ -1,4 +1,4 @@
-import { IHistoryItem } from '../../../entities/HistoryItem/model';
+import { IHistoryItem } from '../../../models/HistoryItem/model';
 
 export interface IHistorySliceScheme {
     items: IHistoryItem[];

@@ -1,4 +1,4 @@
-import { AppRoutes } from '../../../domain/router/config';
+import { AppRoutes } from '../../../config/router/routerConfig';
 
 export interface INavItem {
     to: string;
@@ -22,5 +22,5 @@ export const useNavItems = (isLogged: boolean): INavItem[] => {
             text: 'Register / Login',
             show: !isLogged,
         },
-    ].filter((item) => item.show);
+    ].filter(item => item.show);
 };

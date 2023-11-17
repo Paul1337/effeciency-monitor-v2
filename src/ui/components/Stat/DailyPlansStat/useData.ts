@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
-import { IDailyPlan } from '../../../../domain/entities/PlanItem/model';
+import { IDailyPlan } from '../../../../domain/models/PlanItem/model';
 import { RootState } from '../../../../domain/redux/store';
 import { config } from './config';
-import { incrementDays, stringifyDate } from '../../../../domain/shared/dates/datesOperations';
-import { compareDays } from '../../../../domain/shared/dates/compareDates';
+import { incrementDays, stringifyDate } from '../../../../lib/dates/datesOperations';
+import { compareDays } from '../../../../lib/dates/compareDates';
 import { EChartType, EInfoItems, IChartItem } from './model';
 
 export type TChartsData = Record<EChartType, Array<IChartItem>>;

@@ -1,5 +1,5 @@
-import localStorageConfig from '../../../config/localStorage/localStorageConfig';
-import { IDeal } from '../../../entities/Deal/model';
+import localStorageConfig from '../../../../config/localStorage/localStorageConfig';
+import { IDeal } from '../../../models/Deal/model';
 import { dealsActions } from '../../slices/deals/dealsSlice';
 import { AppThunk } from '../../store';
 

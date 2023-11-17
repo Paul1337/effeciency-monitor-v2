@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IDeal } from '../../../domain/entities/Deal/model';
+import { IDeal } from '../../../domain/models/Deal/model';
 import { Select } from 'chakra-react-select';
 import { FormLabel, Text } from '@chakra-ui/react';
 

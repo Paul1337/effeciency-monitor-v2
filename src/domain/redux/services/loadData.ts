@@ -1,5 +1,5 @@
-import localStorageConfig from '../../config/localStorage/localStorageConfig';
-import { generateDailyPlanID, generateLongPlanID } from '../../entities/PlanItem/lib';
+import localStorageConfig from '../../../config/localStorage/localStorageConfig';
+import { generateDailyPlanID, generateLongPlanID } from '../../models/PlanItem/lib';
 import { dealsActions } from '../slices/deals/dealsSlice';
 import { historyActions } from '../slices/history/historySlice';
 import { plansActions } from '../slices/plans/plansSlice';
@@ -7,7 +7,7 @@ import { IPlansSliceScheme } from '../slices/plans/types';
 import { AppThunk } from '../store';
 
 export const thunkLoadData = (): AppThunk => {
-    return (dispatch) => {
+    return dispatch => {
         const dealsStr = localStorage.getItem(localStorageConfig.DealsKey);
         if (dealsStr) dispatch(dealsActions.setDeals(JSON.parse(dealsStr)));
 

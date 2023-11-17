@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { BasicModal } from '../Modal/Modal';
-import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Input, Text } from '@chakra-ui/react';
 import { useAppDispatch } from '../../../../domain/redux/store';
 import { thunkCreateDailyPlan } from '../../../../domain/redux/services/plan/createPlan/createDailyPlan';
 import { WeekdaysCountSelector } from '../../WeekdaysCountSelector/WeekdaysCountSelector';
-import { TWeekdaysCount } from '../../../../domain/entities/PlanItem/model';
+import { TWeekdaysCount } from '../../../../domain/models/PlanItem/model';
 import { WeekdaysNames } from '../../../shared/weekdays';
 import { AppDealSelector } from '../../DealSelector/AppDealSelector';
-import { useDailyPlanValidation } from './useDailyPlanValidation';
+import { useDailyPlanValidation } from '../../../../domain/hooks/validation/useDailyPlanValidation';
 
 interface IModalCreateDailyPlanProps {
     isOpen: boolean;
@@ -29,8 +29,7 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
 
     const [dealName, setDealName] = useState('');
 
-    const isValid = useDailyPlanValidation(dealName, weekdaysCount);
-    console.log(isValid);
+    const { isValid, error: notValidReason } = useDailyPlanValidation(dealName, weekdaysCount);
     useEffect(() => {
         const newValue = new Array(weekdaysCount.length).fill(dailyCount) as TWeekdaysCount;
         setWeekdaysCount(newValue);
@@ -55,7 +54,7 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
             onAction={handleAction}
             title='Creating daily plan'
         >
-            <FormControl isInvalid={!isValid}>
+            <FormControl>
                 <FormLabel>Daily plan count:</FormLabel>
                 <Input
                     type='number'
@@ -64,7 +63,11 @@ export const ModalCreateDailyPlan: FC<IModalCreateDailyPlanProps> = props => {
                 />
                 <WeekdaysCountSelector value={weekdaysCount} onChange={val => setWeekdaysCount(val)} />
                 <AppDealSelector onSelect={setDealName} plansKey='dailyPlans' />
-                <FormErrorMessage color={'red'}>Not valid</FormErrorMessage>
+                {!isValid && (
+                    <Text mt={1} color={'red'}>
+                        Not valid: {notValidReason}
+                    </Text>
+                )}
             </FormControl>
         </BasicModal>
     );

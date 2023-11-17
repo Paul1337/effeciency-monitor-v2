@@ -1,4 +1,4 @@
-import { IDeal } from '../../../entities/Deal/model';
+import { IDeal } from '../../../models/Deal/model';
 
 export interface IDealsSliceSchema {
     deals: IDeal[];

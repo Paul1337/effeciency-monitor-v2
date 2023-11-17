@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../domain/redux/store';
-import { compareDays } from '../../../../domain/shared/dates/compareDates';
+import { compareDays } from '../../../../lib/dates/compareDates';
 
 interface IChartDataItem {
     name: string;

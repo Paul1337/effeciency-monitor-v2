@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { MainPage } from '../../pages/Main/Main';
 import { StatPage } from '../../pages/Stat/Stat';
 import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
-import { AppRoutes } from '../../../domain/router/config';
+import { AppRoutes } from '../../../config/router/routerConfig';
 import { AuthenticationPage, EAuthType } from '../../pages/AuthenticationPage/AuthenticationPage';
 
 export const AppRouter = () => {

@@ -1,4 +1,4 @@
-import { IDailyPlan, IPlanItem } from '../../../entities/PlanItem/model';
+import { IDailyPlan, IPlanItem } from '../../../models/PlanItem/model';
 
 export interface IPlansSliceScheme {
     longPlans: IPlanItem[];

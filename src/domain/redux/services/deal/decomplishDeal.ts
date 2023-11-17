@@ -1,6 +1,6 @@
-import localStorageConfig from '../../../config/localStorage/localStorageConfig';
-import { IDeal } from '../../../entities/Deal/model';
-import { stringifyDate } from '../../../shared/dates/datesOperations';
+import localStorageConfig from '../../../../config/localStorage/localStorageConfig';
+import { IDeal } from '../../../models/Deal/model';
+import { stringifyDate } from '../../../../lib/dates/datesOperations';
 import { historyActions } from '../../slices/history/historySlice';
 import { AppThunk } from '../../store';
 
