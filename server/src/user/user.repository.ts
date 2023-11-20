@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Client, ClientConfig } from 'pg';
-import 'dotenv/config';
+import pg, { Client, ClientConfig } from 'pg';
 
 const connectionConfig: ClientConfig = {
     host: process.env.host,
@@ -10,14 +9,15 @@ const connectionConfig: ClientConfig = {
 };
 
 @Injectable()
-export class AppService {
+export class UserRepository {
     dbClient: Client;
+
     public constructor() {
-        this.dbClient = new Client(connectionConfig);
-        this.init();
+        this.connectToDb();
     }
 
-    async init() {
+    public async connectToDb() {
+        this.dbClient = new Client(connectionConfig);
         console.log('attempting to connect');
         await this.dbClient
             .connect()
@@ -25,12 +25,8 @@ export class AppService {
             .then(() => console.log('connected'));
     }
 
-    async getSomethingFromDB() {
+    async getUsers() {
         const res = await this.dbClient.query('select * from public.user');
-        return res.rows[0];
-        // await client.end();
-        // return {
-        //     some: 'data',
-        // };
+        return res.rows;
     }
 }
