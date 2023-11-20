@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateUserDto } from './user.model';
 
 @Controller({
     path: '/user',
@@ -7,24 +8,29 @@ import { UserService } from './user.service';
 export class UserController {
     public constructor(private userService: UserService) {}
 
-    @Get('/log_in')
+    @Get('/')
+    getAll() {
+        return this.userService.userRepository.getUsers();
+    }
+
+    @Post('/log_in')
     logIn() {
         this.userService.logIn();
         return 'log in method';
     }
 
-    @Get('/reg')
-    register() {
-        this.userService.register();
-        return 'register method';
+    @Post('/reg')
+    register(@Body() createUserDto: CreateUserDto) {
+        this.userService.register(createUserDto);
+        return 'registration succeded';
     }
 
-    @Get('/auth')
+    @Post('/auth')
     auth() {
         return this.userService.auth();
     }
 
-    @Get('/log_in')
+    @Post('/log_out')
     logOut() {
         this.userService.logOut();
         return 'log out';

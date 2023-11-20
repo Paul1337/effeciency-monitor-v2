@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import pg, { Client, ClientConfig } from 'pg';
+import { CreateUserDto } from './user.model';
 
 const connectionConfig: ClientConfig = {
     host: process.env.host,
@@ -23,6 +24,13 @@ export class UserRepository {
             .connect()
             .catch(err => console.log('caught', err))
             .then(() => console.log('connected'));
+    }
+
+    async addUser(createUserDto: CreateUserDto) {
+        await this.dbClient.query('insert into public.user (email, password) values ($1, $2)', [
+            createUserDto.email,
+            createUserDto.password,
+        ]);
     }
 
     async getUsers() {
