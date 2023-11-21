@@ -20,9 +20,13 @@ export class UserController {
     }
 
     @Post('/reg')
-    register(@Body() createUserDto: CreateUserDto) {
-        this.userService.register(createUserDto);
-        return 'registration succeded';
+    async register(@Body() createUserDto: CreateUserDto) {
+        try {
+            await this.userService.register(createUserDto);
+            return 'registration ok';
+        } catch (err) {
+            return 'registration failed ' + err;
+        }
     }
 
     @Post('/auth')

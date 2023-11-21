@@ -37,4 +37,9 @@ export class UserRepository {
         const res = await this.dbClient.query('select * from public.user');
         return res.rows;
     }
+
+    async findUserByEmail(email: string) {
+        const res = await this.dbClient.query('select * from public.user where email=$1', [email]);
+        return res.rows[0];
+    }
 }
