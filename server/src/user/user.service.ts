@@ -4,7 +4,7 @@ import { CreateUserDto } from './user.model';
 
 @Injectable()
 export class UserService {
-    public constructor(public userRepository: UserRepository) {}
+    public constructor(private userRepository: UserRepository) {}
 
     async logIn() {}
     async register(createUserDto: CreateUserDto) {
@@ -13,6 +13,10 @@ export class UserService {
 
     async logOut() {}
     async auth() {
+        return this.userRepository.getUsers();
+    }
+
+    async getUsers() {
         return this.userRepository.getUsers();
     }
 }
