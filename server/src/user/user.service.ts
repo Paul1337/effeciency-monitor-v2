@@ -7,7 +7,11 @@ import bcrypt from 'bcrypt';
 export class UserService {
     public constructor(private userRepository: UserRepository) {}
 
-    async logIn() {}
+    async logIn() {
+        // 1. check user password hash using bcrypt.compareSync
+        // 2. send jwt token back to the client
+    }
+
     async register(createUserDto: CreateUserDto) {
         const userWithSameEmail = await this.userRepository.findUserByEmail(createUserDto.email);
         if (userWithSameEmail) return Promise.reject('user exists');
@@ -15,7 +19,10 @@ export class UserService {
         await this.userRepository.addUser(createUserDto);
     }
 
-    async logOut() {}
+    async logOut() {
+        // myaybe this service is useless (logout is client-side effect, which removes jwt token from local storage and shows reg form)
+    }
+
     async auth() {
         return this.userRepository.getUsers();
     }

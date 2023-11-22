@@ -1,19 +1,19 @@
 import { Box, Button, HStack } from '@chakra-ui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
-import { RootState } from '../../../domain/redux/store';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { thunkLogout } from '../../../domain/redux/services/auth/logOut';
+import { RootState, useAppDispatch } from '../../../domain/redux/store';
 import { INavItem, useNavItems } from './useNavItems';
-import { userActions } from '../../../domain/redux/slices/user/userSlice';
 
 const getNavItemKey = (navLink: INavItem, index: number) => navLink.text + navLink.to + index;
 
 export const NavBar = () => {
     const isLogged = useSelector((state: RootState) => state.user.isLogged);
     const navItems = useNavItems(isLogged);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const handleLogoutClick = () => {
-        dispatch(userActions.logout());
+        dispatch(thunkLogout());
     };
 
     return (
