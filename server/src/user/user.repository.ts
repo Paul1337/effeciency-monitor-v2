@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import pg, { Client, ClientConfig } from 'pg';
-import { CreateUserDto } from './user.model';
+import { CreateUserParams, User } from './user.model';
 
 const connectionConfig: ClientConfig = {
     host: process.env.host,
@@ -22,11 +22,11 @@ export class UserRepository {
         console.log('attempting to connect');
         await this.dbClient
             .connect()
-            .catch(err => console.log('caught', err))
+            .catch((err) => console.log('caught', err))
             .then(() => console.log('connected'));
     }
 
-    async addUser(createUserDto: CreateUserDto) {
+    async addUser(createUserDto: CreateUserParams) {
         await this.dbClient.query('insert into public.user (email, password) values ($1, $2)', [
             createUserDto.email,
             createUserDto.password,
@@ -38,8 +38,8 @@ export class UserRepository {
         return res.rows;
     }
 
-    async findUserByEmail(email: string) {
+    async findUserByEmail(email: string): Promise<User> {
         const res = await this.dbClient.query('select * from public.user where email=$1', [email]);
-        return res.rows[0];
+        return res.rows[0] as User;
     }
 }
