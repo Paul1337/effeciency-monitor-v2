@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import pg, { Client, ClientConfig } from 'pg';
-import { CreateUserParams, User } from './user.model';
+import { CreateUserParams, User } from './users.model';
 
 const connectionConfig: ClientConfig = {
     host: process.env.host,
@@ -10,7 +10,7 @@ const connectionConfig: ClientConfig = {
 };
 
 @Injectable()
-export class UserRepository {
+export class UsersRepository {
     dbClient: Client;
 
     public constructor() {

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 
 @Controller({
-    path: '/user',
+    path: '/users',
 })
-export class UserController {
-    public constructor(private userService: UserService) {}
+export class UsersController {
+    public constructor(private userService: UsersService) {}
 
     @Get('/')
     getAll() {

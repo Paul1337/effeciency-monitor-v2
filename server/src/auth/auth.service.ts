@@ -1,36 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthDto, CreateUserDto, LogInUserDto } from './auth.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { UserRepository } from 'src/user/user.repository';
+import { UsersRepository } from 'src/user/users.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    public constructor(private userRepository: UserRepository) {}
+    public constructor(
+        private userRepository: UsersRepository,
+        private jwtService: JwtService,
+    ) {}
 
     async logIn(loginUserDto: LogInUserDto) {
         const user = await this.userRepository.findUserByEmail(loginUserDto.email);
-        if (!user) return Promise.reject('User does not exist');
+        if (!user) throw new UnauthorizedException();
 
         const passwordHash = user.password;
-        const passwordOK = bcrypt.compareSync(loginUserDto.password, passwordHash);
-        if (!passwordOK) return Promise.reject('Password is not correct!');
+        if (!bcrypt.compareSync(loginUserDto.password, passwordHash)) {
+            throw new UnauthorizedException();
+        }
+
+        const payload = {
+            id: user.id,
+            email: user.email,
+            timestamp: Date.now(),
+        };
 
         return {
-            authToken: jwt.sign(
-                {
-                    id: user.id,
-                    email: user.email,
-                    timestamp: Date.now(),
-                },
-                process.env.app_secret,
-            ),
+            authToken: await this.jwtService.signAsync(payload),
         };
     }
 
     async register(createUserDto: CreateUserDto) {
         const userWithSameEmail = await this.userRepository.findUserByEmail(createUserDto.email);
-        if (userWithSameEmail) return Promise.reject('User already exists');
+        if (userWithSameEmail)
+            throw new HttpException(`User with email ${createUserDto.email} already exists`, 500);
         createUserDto.password = bcrypt.hashSync(createUserDto.password, 5);
         await this.userRepository.addUser(createUserDto);
     }
