@@ -1,45 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import pg, { Client, ClientConfig } from 'pg';
 import { CreateUserParams, User } from './users.model';
-
-const connectionConfig: ClientConfig = {
-    host: process.env.host,
-    user: process.env.dbuser,
-    password: process.env.dbpassword,
-    database: process.env.dbname,
-};
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UsersRepository {
-    dbClient: Client;
-
-    public constructor() {
-        this.connectToDb();
-    }
-
-    public async connectToDb() {
-        this.dbClient = new Client(connectionConfig);
-        console.log('attempting to connect');
-        await this.dbClient
-            .connect()
-            .catch((err) => console.log('caught', err))
-            .then(() => console.log('connected'));
-    }
+    public constructor(public databaseService: DatabaseService) {}
 
     async addUser(createUserDto: CreateUserParams) {
-        await this.dbClient.query('insert into public.user (email, password) values ($1, $2)', [
-            createUserDto.email,
-            createUserDto.password,
-        ]);
+        await this.databaseService.dbClient.query(
+            'insert into public.user (email, password) values ($1, $2)',
+            [createUserDto.email, createUserDto.password],
+        );
     }
 
     async getUsers() {
-        const res = await this.dbClient.query('select * from public.user');
+        const res = await this.databaseService.dbClient.query('select * from public.user');
         return res.rows;
     }
 
     async findUserByEmail(email: string): Promise<User> {
-        const res = await this.dbClient.query('select * from public.user where email=$1', [email]);
+        const res = await this.databaseService.dbClient.query(
+            'select * from public.user where email=$1',
+            [email],
+        );
         return res.rows[0] as User;
     }
+
+    async getProfile() {}
 }

@@ -1,9 +1,9 @@
 import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthDto, CreateUserDto, LogInUserDto } from './auth.model';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { UsersRepository } from 'src/user/users.repository';
 import { JwtService } from '@nestjs/jwt';
+import { Private } from './decorators/private.decorator';
 
 @Injectable()
 export class AuthService {
@@ -38,11 +38,5 @@ export class AuthService {
             throw new HttpException(`User with email ${createUserDto.email} already exists`, 500);
         createUserDto.password = bcrypt.hashSync(createUserDto.password, 5);
         await this.userRepository.addUser(createUserDto);
-    }
-
-    async auth(authDto: AuthDto) {}
-
-    async getUsers() {
-        return this.userRepository.getUsers();
     }
 }
