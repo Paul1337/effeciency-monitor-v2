@@ -30,7 +30,7 @@ export class AuthService {
         const payload = {
             id: user.id,
             email: user.email,
-            timestamp: Date.now(),
+            // timestamp: Date.now(),
         };
 
         return {
