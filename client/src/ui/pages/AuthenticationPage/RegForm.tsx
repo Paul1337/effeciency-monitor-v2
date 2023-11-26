@@ -2,8 +2,11 @@ import { Button, Card, FormControl, FormLabel, Heading, Input, Text } from '@cha
 import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { EAuthType } from './AuthenticationPage';
+import { useAppDispatch } from '../../../domain/redux/store';
+import { thunkRegister } from '../../../domain/redux/services/auth/register';
 
 export const RegisterForm = () => {
+    const dispatch = useAppDispatch();
     const [password, setPassword] = useState('');
     const [repeatedPassword, setRepeatedPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -16,6 +19,19 @@ export const RegisterForm = () => {
     const authContext = useContext(AuthContext);
 
     const handleLoginClick = () => authContext?.setAuthType(EAuthType.Login);
+
+    const handleRegister = () => {
+        dispatch(
+            thunkRegister({
+                email,
+                password,
+            })
+        ).then(regSuccess => {
+            if (regSuccess) {
+                authContext?.setAuthType(EAuthType.Login);
+            }
+        });
+    };
 
     return (
         <Card p={2} m={2} w={400}>
@@ -34,7 +50,9 @@ export const RegisterForm = () => {
                 <FormLabel>Repeat Password</FormLabel>
                 <Input value={repeatedPassword} onChange={handleRepeatedPasswordChange} />
             </FormControl>
-            <Button mt={3}>Register</Button>
+            <Button mt={3} onClick={handleRegister}>
+                Register
+            </Button>
             <Text color={'red'} m={2} cursor={'pointer'} textAlign={'center'} onClick={handleLoginClick}>
                 Already have an account? Click here to log in
             </Text>

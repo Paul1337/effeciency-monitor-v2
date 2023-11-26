@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { thunkLogout } from '../../../domain/redux/services/auth/logOut';
@@ -9,6 +9,7 @@ const getNavItemKey = (navLink: INavItem, index: number) => navLink.text + navLi
 
 export const NavBar = () => {
     const isLogged = useSelector((state: RootState) => state.user.isLogged);
+    const userData = useSelector((state: RootState) => state.user.userData);
     const navItems = useNavItems(isLogged);
     const dispatch = useAppDispatch();
 
@@ -44,9 +45,12 @@ export const NavBar = () => {
                 ))}
             </HStack>
             {isLogged && (
-                <Box>
-                    <Button onClick={handleLogoutClick}>Log out</Button>
-                </Box>
+                <Flex alignItems={'center'}>
+                    <Text fontWeight={700}>{userData?.email}</Text>
+                    <Button ml={4} onClick={handleLogoutClick}>
+                        Log out
+                    </Button>
+                </Flex>
             )}
         </HStack>
     );

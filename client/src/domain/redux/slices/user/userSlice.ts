@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserSliceScheme } from './types';
+import { IUserData, IUserSliceScheme } from './types';
 
 const initialState: IUserSliceScheme = {
-    isLogged: true,
+    isLogged: false,
+    userData: null,
 };
 
 export const userSlice = createSlice({
@@ -14,6 +15,9 @@ export const userSlice = createSlice({
         },
         logout(state: IUserSliceScheme) {
             state.isLogged = false;
+        },
+        setUserData(state: IUserSliceScheme, action: PayloadAction<IUserData>) {
+            state.userData = action.payload;
         },
     },
 });

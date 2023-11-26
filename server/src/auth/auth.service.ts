@@ -1,4 +1,10 @@
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    ForbiddenException,
+    HttpException,
+    HttpStatus,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { AuthDto, CreateUserDto, LogInUserDto } from './auth.model';
 import bcrypt from 'bcrypt';
 import { UsersRepository } from 'src/user/users.repository';
@@ -14,11 +20,11 @@ export class AuthService {
 
     async logIn(loginUserDto: LogInUserDto) {
         const user = await this.userRepository.findUserByEmail(loginUserDto.email);
-        if (!user) throw new UnauthorizedException();
+        if (!user) throw new ForbiddenException();
 
         const passwordHash = user.password;
         if (!bcrypt.compareSync(loginUserDto.password, passwordHash)) {
-            throw new UnauthorizedException();
+            throw new ForbiddenException();
         }
 
         const payload = {
@@ -29,6 +35,7 @@ export class AuthService {
 
         return {
             authToken: await this.jwtService.signAsync(payload),
+            userData: payload,
         };
     }
 
@@ -38,5 +45,8 @@ export class AuthService {
             throw new HttpException(`User with email ${createUserDto.email} already exists`, 500);
         createUserDto.password = bcrypt.hashSync(createUserDto.password, 5);
         await this.userRepository.addUser(createUserDto);
+        return {
+            message: 'ok',
+        };
     }
 }

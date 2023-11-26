@@ -2,8 +2,11 @@ import { Button, Card, FormControl, FormLabel, Heading, Input, Text } from '@cha
 import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { EAuthType } from './AuthenticationPage';
+import { thunkLogIn } from '../../../domain/redux/services/auth/login';
+import { useAppDispatch } from '../../../domain/redux/store';
 
 export const LoginForm = () => {
+    const dispatch = useAppDispatch();
     const authContext = useContext(AuthContext);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -13,6 +16,15 @@ export const LoginForm = () => {
 
     const handleRegisterClick = () => {
         authContext?.setAuthType(EAuthType.Register);
+    };
+
+    const handleLogin = () => {
+        dispatch(
+            thunkLogIn({
+                email,
+                password,
+            })
+        );
     };
 
     return (
@@ -28,7 +40,9 @@ export const LoginForm = () => {
                 <FormLabel>Password</FormLabel>
                 <Input value={password} onChange={handlePasswordChange} />
             </FormControl>
-            <Button mt={3}>Login</Button>
+            <Button mt={3} onClick={handleLogin}>
+                Login
+            </Button>
             <Text
                 color={'red'}
                 m={2}
