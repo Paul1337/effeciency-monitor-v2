@@ -12,8 +12,8 @@ export const LoadingProvider = (props: ILoadingProviderProps) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(thunkLoadData());
         dispatch(thunkLoadUserData());
+        dispatch(thunkLoadData());
     }, []);
 
     return <>{children}</>;
