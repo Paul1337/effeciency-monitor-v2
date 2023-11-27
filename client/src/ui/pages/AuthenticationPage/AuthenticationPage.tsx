@@ -5,7 +5,7 @@ import { Flex } from '@chakra-ui/react';
 import { AuthContext } from './AuthContext';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../domain/redux/store';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export enum EAuthType {
     Login,
@@ -14,7 +14,7 @@ export enum EAuthType {
 
 export const authType = EAuthType.Login;
 
-export const AuthenticationFormWrapper: FC<PropsWithChildren> = props => {
+export const AuthenticationFormWrapper: FC<PropsWithChildren> = (props) => {
     const { children } = props;
 
     return (
@@ -24,12 +24,11 @@ export const AuthenticationFormWrapper: FC<PropsWithChildren> = props => {
     );
 };
 
-export const AuthenticationPage: FC = props => {
+export const AuthenticationPage: FC = (props) => {
     const isLogged = useSelector((state: RootState) => state.user.isLogged);
-    const navigate = useNavigate();
-    if (isLogged) navigate('/');
-
     const [authType, setAuthType] = useState(EAuthType.Login);
+
+    if (isLogged) return <Navigate to='/' />;
 
     let loginForm: ReactNode | null = null;
     switch (authType) {

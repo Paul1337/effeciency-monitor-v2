@@ -1,4 +1,4 @@
-import { logIn } from '../../../../api/auth/logIn';
+import { authApi } from '../../../../api/auth';
 import { setAuthToken } from '../../../data/localStorage/auth';
 import { userActions } from '../../slices/user/userSlice';
 import { AppThunk } from '../../store';
@@ -9,9 +9,9 @@ interface IThunkLogIn {
 }
 
 export const thunkLogIn = (data: IThunkLogIn): AppThunk => {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
-            const response = await logIn(data);
+            const response = await authApi.logIn(data);
             const { authToken, userData } = response;
             setAuthToken(authToken);
             dispatch(userActions.setLogged(true));
