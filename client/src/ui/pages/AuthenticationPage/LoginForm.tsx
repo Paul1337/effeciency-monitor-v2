@@ -2,8 +2,9 @@ import { Button, Card, FormControl, FormLabel, Heading, Input, Text } from '@cha
 import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { EAuthType } from './AuthenticationPage';
-import { thunkLogIn } from '../../../domain/redux/services/auth/login';
 import { useAppDispatch } from '../../../domain/redux/store';
+import { thunkLogIn } from '../../../domain/redux/services/auth/logIn';
+import { validateEmail, validatePassword } from './validation';
 
 export const LoginForm = () => {
     const dispatch = useAppDispatch();
@@ -32,19 +33,24 @@ export const LoginForm = () => {
             <Heading textAlign={'center'} m={3}>
                 Login
             </Heading>
-            <FormControl>
+            <FormControl isInvalid={!validateEmail(email) && email.length > 0}>
                 <FormLabel>Email</FormLabel>
                 <Input value={email} onChange={handleEmailChange} />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!validatePassword(password) && password.length > 0}>
                 <FormLabel>Password</FormLabel>
-                <Input value={password} onChange={handlePasswordChange} />
+                <Input type='password' value={password} onChange={handlePasswordChange} />
             </FormControl>
-            <Button mt={3} onClick={handleLogin}>
+            <Button
+                isDisabled={!validateEmail(email) || !validatePassword(password)}
+                mt={3}
+                onClick={handleLogin}
+            >
                 Login
             </Button>
             <Text
-                color={'red'}
+                color={'green.500'}
+                fontWeight={700}
                 m={2}
                 cursor={'pointer'}
                 textAlign={'center'}

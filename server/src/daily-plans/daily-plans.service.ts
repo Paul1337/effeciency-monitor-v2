@@ -14,10 +14,11 @@ export class DailyPlansService {
 
     async create(createDailyPlanDto: CreateDailyPlanDto, userId: number) {
         await this.verifyUserHasDeal(createDailyPlanDto.dealId, userId);
-        await this.databaseService.dbClient.query(
-            'insert into public.daily_plan (user_id, deal_id, weekdays_count) values ($1, $2, $3)',
+        const res = await this.databaseService.dbClient.query(
+            'insert into public.daily_plan (user_id, deal_id, weekdays_count) values ($1, $2, $3) returning id',
             [userId, createDailyPlanDto.dealId, JSON.stringify(createDailyPlanDto.weekdaysCount)],
         );
+        return res.oid;
     }
 
     async findAll(userId: number) {

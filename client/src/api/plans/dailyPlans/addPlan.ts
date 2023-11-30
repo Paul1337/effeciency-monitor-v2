@@ -5,6 +5,6 @@ interface IAddPlanDto {
     weekdaysCount: [number, number, number, number, number, number, number];
 }
 
-export const addPlan = (data: IAddPlanDto) => {
+export const addPlan = (data: IAddPlanDto): Promise<number> => {
     return axiosInstance.post('/daily-plans', data);
 };

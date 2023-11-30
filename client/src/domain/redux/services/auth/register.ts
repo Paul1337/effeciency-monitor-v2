@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { authApi } from '../../../../api/auth';
 import { AppThunk } from '../../store';
 
@@ -6,15 +7,21 @@ interface IThunkRegister {
     password: string;
 }
 
-export const thunkRegister = (data: IThunkRegister): AppThunk<Promise<boolean>> => {
-    return async (dispatch): Promise<boolean> => {
+interface IThunkRegisterResult {
+    error?: string;
+}
+
+export const thunkRegister = (data: IThunkRegister): AppThunk<Promise<IThunkRegisterResult>> => {
+    return async dispatch => {
         try {
             const response = await authApi.register(data);
             console.log('Register response', response);
-            return true;
+            return {};
         } catch (err) {
             console.log('Error registering', err);
-            return false;
+            return {
+                error: err as string,
+            };
         }
     };
 };

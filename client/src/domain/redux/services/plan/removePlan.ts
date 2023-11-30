@@ -1,3 +1,5 @@
+import { dailyPlansApi } from '../../../../api/plans/dailyPlans';
+import { longPlansApi } from '../../../../api/plans/longPlans';
 import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
 import { updatePlansDataInStorage } from '../../../data/localStorage/plans';
 import { IDeal } from '../../../models/Deal/model';
@@ -14,28 +16,29 @@ const isDealUseless = (state: RootState, deal: IDeal): boolean => {
 };
 
 export const thunkRemoveDailyPlan = (plan: IDailyPlan): AppThunk => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
+        await dailyPlansApi.removePlan({
+            planId: plan.id,
+        });
+
         dispatch(plansActions.removeDailyPlanByID(plan.id));
-        const plansState = getState().plans;
-        updatePlansDataInStorage(plansState);
 
         if (isDealUseless(getState(), plan.deal)) {
             dispatch(thunkRemoveDeal(plan.deal));
-            const dealsState = getState().deals.deals;
-            updateDealsDataInStorage(dealsState);
         }
     };
 };
 
 export const thunkRemoveLongPlan = (plan: IPlanItem): AppThunk => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
+        await longPlansApi.removePlan({
+            planId: plan.id,
+        });
+
         dispatch(plansActions.removeLongPlanByID(plan.id));
-        updatePlansDataInStorage(getState().plans);
 
         if (isDealUseless(getState(), plan.deal)) {
             dispatch(thunkRemoveDeal(plan.deal));
-            const dealsState = getState().deals.deals;
-            updateDealsDataInStorage(dealsState);
         }
     };
 };

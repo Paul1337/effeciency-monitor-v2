@@ -5,25 +5,23 @@ import { DealsService } from './deals.service';
 import { CreateDealDto } from './dto/create-deal.dto';
 
 @Controller('deals')
+@Private()
 export class DealsController {
     constructor(private readonly dealsService: DealsService) {}
 
     @Post()
-    @Private()
     async create(@Body() createDealDto: CreateDealDto, @Req() request: Request) {
         const user = request['user'];
         return this.dealsService.create(createDealDto, user.id);
     }
 
     @Get()
-    @Private()
     async findAll(@Req() request: Request) {
         const user = request['user'];
         return this.dealsService.findAll(user.id);
     }
 
     @Delete(':id')
-    @Private()
     async remove(@Param('id') id: string, @Req() request: Request) {
         const user = request['user'];
         return this.dealsService.remove(+id, user.id);

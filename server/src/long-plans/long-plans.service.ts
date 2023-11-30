@@ -8,10 +8,11 @@ export class LongPlansService {
 
     async create(createLongPlanDto: CreateLongPlanDto, userId: number) {
         await this.verifyUserHasDeal(createLongPlanDto.dealId, userId);
-        await this.databaseService.dbClient.query(
-            'insert into public.long_plan (user_id, deal_id, date, count) values ($1, $2, $3, $4)',
+        const res = await this.databaseService.dbClient.query(
+            'insert into public.long_plan (user_id, deal_id, date, count) values ($1, $2, $3, $4) returning id',
             [userId, createLongPlanDto.dealId, createLongPlanDto.date, createLongPlanDto.count],
         );
+        return res.oid;
     }
 
     async findAll(userId: number) {

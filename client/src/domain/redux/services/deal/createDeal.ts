@@ -1,15 +1,17 @@
-import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
+import { dealsApi } from '../../../../api/deals';
+import { IDeal } from '../../../models/Deal/model';
 import { dealsActions } from '../../slices/deals/dealsSlice';
 import { AppThunk } from '../../store';
 
-export const buildDeal = (dealName: string) => ({
-    name: dealName,
-});
-
-export const thunkCreateDeal = (dealName: string): AppThunk => {
-    return (dispatch, getState) => {
-        const newDeal = buildDeal(dealName);
-        dispatch(dealsActions.tryAddDeal(newDeal));
-        updateDealsDataInStorage(getState().deals.deals);
+export const thunkCreateDeal = (dealName: string): AppThunk<Promise<any>> => {
+    return async (dispatch, getState) => {
+        await dealsApi.createDeal(dealName).then(dealId => {
+            const newDeal: IDeal = {
+                name: dealName,
+                id: dealId,
+            };
+            dispatch(dealsActions.tryAddDeal(newDeal));
+        });
+        return Promise.resolve();
     };
 };

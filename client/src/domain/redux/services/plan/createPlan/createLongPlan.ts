@@ -4,6 +4,7 @@ import { IPlanItem } from '../../../../models/PlanItem/model';
 import { stringifyDate } from '../../../../../lib/dates/datesOperations';
 import { plansActions } from '../../../slices/plans/plansSlice';
 import { AppThunk } from '../../../store';
+import { longPlansApi } from '../../../../../api/plans/longPlans';
 
 interface ICreateLongPlanParams {
     dealName: string;
@@ -12,19 +13,23 @@ interface ICreateLongPlanParams {
 }
 
 export const thunkCreateLongPlan = (params: ICreateLongPlanParams): AppThunk => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
         const deal = state.deals.deals.find(deal => deal.name === params.dealName);
         if (!deal) return;
-        const plan: IPlanItem = {
-            deal,
+        const planId = await longPlansApi.addPlan({
             count: params.count,
             date: params.date,
-            startDate: stringifyDate(new Date()),
-            id: generateLongPlanID(params),
-        };
-        dispatch(plansActions.addLongPlan(plan));
-        const newState = getState();
-        updatePlansDataInStorage(newState.plans);
+            dealId: deal.id,
+        });
+        dispatch(
+            plansActions.addLongPlan({
+                deal,
+                count: params.count,
+                date: params.date,
+                startDate: stringifyDate(new Date()),
+                id: planId,
+            })
+        );
     };
 };

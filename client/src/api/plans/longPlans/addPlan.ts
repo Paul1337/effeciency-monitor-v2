@@ -3,13 +3,13 @@ import { axiosInstance } from '../../instance';
 interface IAddPlanDto {
     dealId: number;
     count: number;
-    date: Date;
+    date: string;
 }
 
-export const addPlan = (data: IAddPlanDto) => {
+export const addPlan = (data: IAddPlanDto): Promise<number> => {
     return axiosInstance.post('/long-plans', {
         ...data,
-        date: formatDate(data.date),
+        date: data.date,
     });
 };
 

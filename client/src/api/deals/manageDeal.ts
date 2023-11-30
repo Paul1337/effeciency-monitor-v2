@@ -1,3 +1,4 @@
+import { getAuthToken } from '../../domain/data/localStorage/auth';
 import { axiosInstance } from '../instance';
 
 interface IDoDealDto {
@@ -27,6 +28,6 @@ interface IUpdateDealDto {
     count: number;
 }
 
-const updateDeal = (dto: IUpdateDealDto) => {
-    return axiosInstance.post('/history/do-deal', dto).then((res) => res.data);
+const updateDeal = async (dto: IUpdateDealDto) => {
+    return axiosInstance.post('/history/do-deal', dto).then(res => res.data);
 };

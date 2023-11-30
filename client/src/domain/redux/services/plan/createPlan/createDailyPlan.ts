@@ -5,6 +5,7 @@ import { stringifyDate } from '../../../../../lib/dates/datesOperations';
 import { plansActions } from '../../../slices/plans/plansSlice';
 import { AppThunk } from '../../../store';
 import { thunkCreateDeal } from '../../deal/createDeal';
+import { dailyPlansApi } from '../../../../../api/plans/dailyPlans';
 
 interface ICreateDailyPlanParams {
     dealName: string;
@@ -12,22 +13,26 @@ interface ICreateDailyPlanParams {
 }
 
 export const thunkCreateDailyPlan = (params: ICreateDailyPlanParams): AppThunk => {
-    const thunkFn: AppThunk = (dispatch, getState) => {
+    const thunkFn: AppThunk = async (dispatch, getState) => {
         const state = getState();
         const deal = state.deals.deals.find(deal => deal.name === params.dealName);
         if (!deal) {
-            dispatch(thunkCreateDeal(params.dealName));
+            await dispatch(thunkCreateDeal(params.dealName));
             return thunkFn(dispatch, getState, undefined);
         }
-        const plan: IDailyPlan = {
-            deal: deal,
+        const planId = await dailyPlansApi.addPlan({
+            dealId: deal.id,
             weekdaysCount: params.weekdaysCount,
-            startDate: stringifyDate(new Date()),
-            id: generateDailyPlanID(params),
-        };
-        dispatch(plansActions.addDailyPlan(plan));
-        const newState = getState();
-        updatePlansDataInStorage(newState.plans);
+        });
+
+        dispatch(
+            plansActions.addDailyPlan({
+                deal,
+                id: planId,
+                weekdaysCount: params.weekdaysCount,
+                startDate: stringifyDate(new Date()),
+            })
+        );
     };
     return thunkFn;
 };
