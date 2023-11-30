@@ -1,17 +1,14 @@
-import localStorageConfig from '../../../../config/localStorage/localStorageConfig';
+import { dealsApi } from '../../../../api/deals';
 import { IDeal } from '../../../models/Deal/model';
-import { stringifyDate } from '../../../../lib/dates/datesOperations';
 import { historyActions } from '../../slices/history/historySlice';
 import { AppThunk } from '../../store';
-import { dealsApi } from '../../../../api/deals';
 
 export interface IDecomplishDealParams {
     deal: IDeal;
-    date?: string;
 }
 
 export const thunkDecomplishDeal = (params: IDecomplishDealParams): AppThunk => {
-    const { deal, date = stringifyDate(new Date()) } = params;
+    const { deal } = params;
 
     return (dispatch, getState) => {
         dealsApi
@@ -19,7 +16,7 @@ export const thunkDecomplishDeal = (params: IDecomplishDealParams): AppThunk => 
                 dealId: deal.id,
             })
             .then(() => {
-                dispatch(historyActions.decomplishDeal({ deal, date }));
+                dispatch(historyActions.decomplishDeal({ deal }));
             });
     };
 };

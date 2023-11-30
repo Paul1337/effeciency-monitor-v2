@@ -16,8 +16,9 @@ export const thunkLoadData = (): AppThunk => {
             const deals = await dealsApi.getDeals();
             dispatch(dealsActions.setDeals(deals));
 
-            const history = await historyApi.getHistory();
-            dispatch(historyActions.setHistory(mapHistory(history)));
+            const todayHistory = await historyApi.getTodayHistory();
+            const mappedHistory = mapHistory(todayHistory)[0];
+            dispatch(historyActions.setTodayHistory(mappedHistory));
 
             const dailyPlans = await dailyPlansApi.getPlans();
             const longPlans = await longPlansApi.getPlans();

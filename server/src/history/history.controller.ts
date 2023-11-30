@@ -21,4 +21,10 @@ export class HistoryController {
         const user = request['user'];
         return this.historyService.findAll(user.id);
     }
+
+    @Get('today')
+    findTodayHistory(@Req() request: Request) {
+        const { id: userId } = request['user'];
+        return this.historyService.findToday(userId);
+    }
 }

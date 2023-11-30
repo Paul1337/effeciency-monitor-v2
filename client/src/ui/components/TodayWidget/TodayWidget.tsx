@@ -1,18 +1,17 @@
-import { Card, CardBody, CardHeader, Heading, Text, useAccordion } from '@chakra-ui/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../../domain/redux/store';
-import { TodayItem } from './TodayItem';
-import { WeekdaysNames } from '../../shared/weekdays';
-import { compareDays, sameDay } from '../../../lib/dates/compareDates';
+import { CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import { IDeal } from '../../../domain/models/Deal/model';
 import { thunkAccomplishDeal } from '../../../domain/redux/services/deal/accomplishDeal';
 import { thunkDecomplishDeal } from '../../../domain/redux/services/deal/decomplishDeal';
+import { RootState, useAppDispatch } from '../../../domain/redux/store';
+import { WeekdaysNames } from '../../shared/weekdays';
 import { BaseCard } from '../BaseCard/BaseCard';
+import { TodayItem } from './TodayItem';
 
 export const TodayWidget = () => {
     const dispatch = useAppDispatch();
     const dailyPlans = useSelector((state: RootState) => state.plans.dailyPlans);
-    const historyItems = useSelector((state: RootState) => state.history.items);
+    const todayHistory = useSelector((state: RootState) => state.history.today);
     const deals = useSelector((state: RootState) => state.deals.deals);
 
     const currentDate = new Date();
@@ -20,8 +19,6 @@ export const TodayWidget = () => {
     const todayPlans = dailyPlans.filter(dailyPlan => dailyPlan.weekdaysCount[currentWeekday] > 0);
 
     const otherDeals = deals.filter(deal => !todayPlans.some(plan => plan.deal.name === deal.name));
-
-    const todayHistory = historyItems.find(item => sameDay(item.date, currentDate));
 
     const handleTodayItemDo = (deal: IDeal) => {
         dispatch(

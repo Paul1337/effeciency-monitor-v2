@@ -12,10 +12,3 @@ export const addPlan = (data: IAddPlanDto): Promise<number> => {
         date: data.date,
     });
 };
-
-const formatDate = (date: Date) => {
-    return `${date.getFullYear()}-${date.getMonth().toString().padStart(2, '0')}-${date
-        .getDate()
-        .toString()
-        .padStart(2, '0')}`;
-};
