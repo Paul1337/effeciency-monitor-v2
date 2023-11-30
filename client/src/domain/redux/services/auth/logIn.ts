@@ -10,7 +10,7 @@ interface IThunkLogIn {
     password: string;
 }
 
-export const thunkLogIn = (data: IThunkLogIn): AppThunk => {
+export const thunkLogIn = (data: IThunkLogIn): AppThunk<Promise<any>> => {
     return async dispatch => {
         try {
             const response = await authApi.logIn(data);
@@ -21,8 +21,10 @@ export const thunkLogIn = (data: IThunkLogIn): AppThunk => {
             dispatch(userActions.setUserData(userData));
             dispatch(thunkLoadData());
             console.log('Login response', response);
+            return Promise.resolve();
         } catch (err) {
             console.log('Error logging in', err);
+            return Promise.reject();
         }
     };
 };

@@ -9,5 +9,5 @@ export const register = async (data: IRegisterParams) => {
     return axiosInstance
         .post('/auth/reg', data)
         .then(res => res.data)
-        .catch(err => Promise.reject(err.response.data.message));
+        .catch(err => Promise.reject(err?.response?.data?.message));
 };

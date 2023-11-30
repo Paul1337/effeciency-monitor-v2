@@ -11,6 +11,7 @@ export const LoginForm = () => {
     const authContext = useContext(AuthContext);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
 
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
@@ -25,11 +26,13 @@ export const LoginForm = () => {
                 email,
                 password,
             })
-        );
+        ).catch(() => {
+            setError('Login or password is not correct');
+        });
     };
 
     return (
-        <Card p={2} m={2} w={400}>
+        <Card p={2} m={2} w={400} minH={360}>
             <Heading textAlign={'center'} m={3}>
                 Login
             </Heading>
@@ -57,6 +60,9 @@ export const LoginForm = () => {
                 onClick={handleRegisterClick}
             >
                 Don't have an account? Click here to register
+            </Text>{' '}
+            <Text textAlign={'center'} color='red' m={2}>
+                {error}
             </Text>
         </Card>
     );

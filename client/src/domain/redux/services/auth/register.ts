@@ -20,7 +20,7 @@ export const thunkRegister = (data: IThunkRegister): AppThunk<Promise<IThunkRegi
         } catch (err) {
             console.log('Error registering', err);
             return {
-                error: err as string,
+                error: err?.toString() ?? 'Server error',
             };
         }
     };
