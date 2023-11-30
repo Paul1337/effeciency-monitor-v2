@@ -1,7 +1,5 @@
 import { dailyPlansApi } from '../../../../api/plans/dailyPlans';
 import { longPlansApi } from '../../../../api/plans/longPlans';
-import { updateDealsDataInStorage } from '../../../data/localStorage/deals';
-import { updatePlansDataInStorage } from '../../../data/localStorage/plans';
 import { IDeal } from '../../../models/Deal/model';
 import { IDailyPlan, IPlanItem } from '../../../models/PlanItem/model';
 import { plansActions } from '../../slices/plans/plansSlice';

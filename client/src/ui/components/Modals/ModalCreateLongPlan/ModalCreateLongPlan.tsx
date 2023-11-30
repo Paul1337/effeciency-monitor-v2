@@ -5,7 +5,7 @@ import { thunkCreateLongPlan } from '../../../../domain/redux/services/plan/crea
 import { useAppDispatch } from '../../../../domain/redux/store';
 import { AppDealSelector } from '../../DealSelector/AppDealSelector';
 import { BasicModal } from '../Modal/Modal';
-import { stringifyDate } from '../../../../lib/dates/datesOperations';
+import { stringifyDate, stringifyDateForDB } from '../../../../lib/dates/datesOperations';
 import { useLongPlanValidation } from '../../../../domain/hooks/validation/useLongPlanValidation';
 
 interface IModalCreateLongPlanProps {
@@ -32,7 +32,7 @@ export const ModalCreateLongPlan: FC<IModalCreateLongPlanProps> = props => {
             thunkCreateLongPlan({
                 count: planCount,
                 dealName,
-                date: stringifyDate(date),
+                date: stringifyDateForDB(date),
             })
         );
         onClose?.();

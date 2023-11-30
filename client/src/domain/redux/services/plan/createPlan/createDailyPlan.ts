@@ -1,11 +1,9 @@
-import { updatePlansDataInStorage } from '../../../../data/localStorage/plans';
-import { generateDailyPlanID } from '../../../../models/PlanItem/lib';
-import { IDailyPlan, TWeekdaysCount } from '../../../../models/PlanItem/model';
+import { dailyPlansApi } from '../../../../../api/plans/dailyPlans';
 import { stringifyDate } from '../../../../../lib/dates/datesOperations';
+import { TWeekdaysCount } from '../../../../models/PlanItem/model';
 import { plansActions } from '../../../slices/plans/plansSlice';
 import { AppThunk } from '../../../store';
 import { thunkCreateDeal } from '../../deal/createDeal';
-import { dailyPlansApi } from '../../../../../api/plans/dailyPlans';
 
 interface ICreateDailyPlanParams {
     dealName: string;

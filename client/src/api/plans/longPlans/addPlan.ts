@@ -6,9 +6,11 @@ interface IAddPlanDto {
     date: string;
 }
 
-export const addPlan = (data: IAddPlanDto): Promise<number> => {
-    return axiosInstance.post('/long-plans', {
-        ...data,
-        date: data.date,
-    });
+export const addPlan = async (data: IAddPlanDto): Promise<number> => {
+    return axiosInstance
+        .post('/long-plans', {
+            ...data,
+            date: data.date,
+        })
+        .then(res => res.data);
 };

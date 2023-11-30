@@ -16,9 +16,9 @@ export class DealsController {
     }
 
     @Get()
-    async findAll(@Req() request: Request) {
+    async findActive(@Req() request: Request) {
         const user = request['user'];
-        return this.dealsService.findAll(user.id);
+        return this.dealsService.findActive(user.id);
     }
 
     @Delete(':id')

@@ -17,10 +17,18 @@ export const makeDate = (date: TDateFormat) => {
     return date;
 };
 
+const normalizeItem = (item: number) => item.toString().padStart(2, '0');
+
 export const stringifyDate = (date: Date) => {
-    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}/${date.getFullYear()}`;
+    return `${normalizeItem(date.getDate())}/${normalizeItem(
+        date.getMonth() + 1
+    )}/${date.getFullYear()}`;
+};
+
+export const stringifyDateForDB = (date: Date) => {
+    return `${date.getFullYear()}/${normalizeItem(date.getMonth() + 1)}/${normalizeItem(
+        date.getDate()
+    )}`;
 };
 
 export const strToDate = (dateStr: string) => {

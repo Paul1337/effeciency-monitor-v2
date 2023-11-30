@@ -5,13 +5,16 @@ import { AppThunk } from '../../store';
 
 export const thunkCreateDeal = (dealName: string): AppThunk<Promise<any>> => {
     return async (dispatch, getState) => {
-        await dealsApi.createDeal(dealName).then(dealId => {
-            const newDeal: IDeal = {
-                name: dealName,
-                id: dealId,
-            };
-            dispatch(dealsActions.tryAddDeal(newDeal));
-        });
-        return Promise.resolve();
+        try {
+            await dealsApi.createDeal(dealName).then(dealId => {
+                const newDeal: IDeal = {
+                    name: dealName,
+                    id: dealId,
+                };
+                dispatch(dealsActions.tryAddDeal(newDeal));
+            });
+        } catch (err) {
+            console.log('Error while creating deal: ', err);
+        }
     };
 };
