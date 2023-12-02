@@ -1,39 +1,25 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../domain/redux/store';
-import { compareDays } from '../../../../lib/dates/compareDates';
-
-interface IChartDataItem {
-    name: string;
-    percentValue: number;
-}
+import { useEffect, useState } from 'react';
+import { longPlansApi } from '../../../../api/plans/longPlans';
 
 export const useData = () => {
-    const longPlans = useSelector((state: RootState) => state.plans.longPlans);
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState<Record<string, string>>({});
 
-    // todo: api request data
-    const historyItems = useSelector((state: RootState) => state.history.items);
+    useEffect(() => {
+        longPlansApi.getStat().then(res => {
+            console.log('loaded long plans data', res);
 
-    const info = {} as Record<string, string>;
-    const chartData: Array<IChartDataItem> = [];
-
-    for (const plan of longPlans) {
-        const done = historyItems
-            .filter(
-                item =>
-                    compareDays(item.date, plan.startDate) >= 0 && compareDays(item.date, plan.date) <= 0
-            )
-            .reduce((acc, item) => acc + (item.done[plan.deal.name] ?? 0), 0);
-        const todo = plan.count;
-        const percentValue = ((done / todo) * 100).toFixed(2);
-        info[plan.deal.name] = percentValue + '%';
-        chartData.push({
-            name: plan.deal.name,
-            percentValue: Number(percentValue),
+            const resMapped: Record<string, string> = {};
+            for (const el of res) {
+                resMapped[el.deal_name] = el.done_total;
+            }
+            setData(resMapped);
+            setIsLoading(false);
         });
-    }
+    }, []);
 
     return {
-        info,
-        chartData,
+        info: data,
+        isLoading,
     };
 };

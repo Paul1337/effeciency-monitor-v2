@@ -51,4 +51,18 @@ export class LongPlansService {
 
         return res.rows[0];
     }
+
+    async getOverallPlansStat(userId: number) {
+        const statRes = await this.databaseService.dbClient.query(
+            `
+                select d.name as deal_name, pl.id as plan_id, sum(h.done_count) as done_total
+                from public.long_plan pl
+                join history h on h.deal_id = pl.deal_id
+                join deal d on d.id = pl.deal_id
+                where pl.user_id = $1
+                group by d.name, pl.id`,
+            [userId],
+        );
+        return statRes.rows;
+    }
 }

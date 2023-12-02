@@ -1,5 +1,5 @@
-import { Box, Flex, Heading, Radio, RadioGroup, Stack } from '@chakra-ui/react';
-import { FC, useState } from 'react';
+import { Box, Flex, Heading, Radio, RadioGroup, Spinner, Stack } from '@chakra-ui/react';
+import { FC, useEffect, useState } from 'react';
 import {
     CartesianGrid,
     Legend,
@@ -12,25 +12,32 @@ import {
     YAxis,
 } from 'recharts';
 import { IDailyPlan } from '../../../../domain/models/PlanItem/model';
-import { OverallDailyPlanInfo } from './OverallDailyPlanInfo';
-import { useData } from './useData';
 import { DefaultChartType } from './config';
-import { EChartType } from './model';
+import { EChartType, IData } from './model';
+import { loadData } from './loadData';
 
 interface IDailyPlanStatProps {
     plan: IDailyPlan;
 }
 
 export const DailyPlanStat: FC<IDailyPlanStatProps> = props => {
-    const { plan } = props;
-    const { chartsData, info } = useData(plan);
+    const [data, setData] = useState<IData | null>(null);
     const [chartType, setChartType] = useState<EChartType>(DefaultChartType);
+
+    const { plan } = props;
+
+    useEffect(() => {
+        loadData(plan, chartType).then(res => {
+            console.log('loaded daily plan data', res);
+            setData(res);
+        });
+    }, [chartType]);
 
     return (
         <Box>
             <Heading mb={2}>{plan.deal.name}</Heading>
             <Flex justifyContent={'space-around'} width={'100%'} alignItems={'center'}>
-                <OverallDailyPlanInfo info={info} />
+                {/* <OverallDailyPlanInfo info={info} /> */}
                 <Flex direction={'column'} flex={1}>
                     <RadioGroup
                         colorScheme='green'
@@ -43,22 +50,33 @@ export const DailyPlanStat: FC<IDailyPlanStatProps> = props => {
                             <Radio value={EChartType.AccumulationRelative}>Accumulation relative</Radio>
                         </Stack>
                     </RadioGroup>
-                    <ResponsiveContainer height={300} width={'100%'}>
-                        <LineChart data={chartsData[chartType]}>
-                            <CartesianGrid stroke='#ccc' />
-                            <XAxis dataKey={'name'} />
-                            <YAxis dataKey={'value'} />
-                            <Legend />
-                            <Tooltip />
-                            <ReferenceLine
-                                y={100}
-                                label='efficient'
-                                stroke='green'
-                                strokeDasharray='3 3'
-                            />
-                            <Line type='monotone' dataKey='value' stroke='#8884d8' />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    {data?.chartsData ? (
+                        <ResponsiveContainer height={300} width={'100%'}>
+                            <LineChart data={data?.chartsData}>
+                                <CartesianGrid stroke='#ccc' />
+                                <XAxis dataKey={'name'} />
+                                <YAxis dataKey={'value'} />
+                                <Legend />
+                                <Tooltip />
+                                <ReferenceLine
+                                    y={100}
+                                    label='efficient'
+                                    stroke='green'
+                                    strokeDasharray='3 3'
+                                />
+                                <Line type='monotone' dataKey='value' stroke='#8884d8' />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <Spinner
+                            margin={'5px auto'}
+                            thickness='4px'
+                            speed='0.65s'
+                            emptyColor='gray.200'
+                            color='green.500'
+                            size='xl'
+                        />
+                    )}
                 </Flex>
             </Flex>
         </Box>

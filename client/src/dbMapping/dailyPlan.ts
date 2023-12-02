@@ -5,7 +5,7 @@ import { stringifyDate } from '../lib/dates/datesOperations';
 export interface IDBDailyPlan {
     id: number;
     deal_id: number;
-    weekdays_count: string;
+    weekdays_count: TWeekdaysCount;
     start_date: string;
     user_id: number;
 }
@@ -13,7 +13,7 @@ export interface IDBDailyPlan {
 export const mapDailyPlan = (plan: IDBDailyPlan, deals: IDeal[]): IDailyPlan => ({
     id: plan.id,
     startDate: stringifyDate(new Date(plan.start_date)),
-    weekdaysCount: JSON.parse(plan.weekdays_count) as TWeekdaysCount,
+    weekdaysCount: plan.weekdays_count,
     deal: deals.find(deal => deal.id === plan.deal_id) as IDeal,
 });
 

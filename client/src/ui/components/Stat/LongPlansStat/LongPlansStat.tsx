@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import {
     Bar,
     BarChart,
@@ -16,25 +16,26 @@ import { RootState } from '../../../../domain/redux/store';
 
 export const LongPlansStat = () => {
     const longsPlans = useSelector((state: RootState) => state.plans.longPlans);
-    const { info, chartData } = useData();
+    const { isLoading, info } = useData();
 
     return longsPlans.length === 0 ? (
         <Text>No long plans</Text>
     ) : (
         <Flex justifyContent={'space-around'}>
-            <Box flex={0.7}>
-                <InfoTable title={'Overall long-term plans'} info={info} />
-            </Box>
-            <ResponsiveContainer height={300} style={{ flex: 1 }}>
-                <BarChart width={730} height={250} data={chartData}>
-                    <CartesianGrid strokeDasharray='3 3' />
-                    <XAxis dataKey='name' />
-                    <YAxis />
-                    <Tooltip />
-                    {/* <Legend margin={{ top: 25 }} /> */}
-                    <Bar dataKey='percentValue' fill='#32a852a0' />
-                </BarChart>
-            </ResponsiveContainer>
+            {isLoading ? (
+                <Spinner
+                    margin={'5px auto'}
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='green.500'
+                    size='xl'
+                />
+            ) : (
+                <Box flex={0.7}>
+                    <InfoTable title={'Overall long-term plans'} info={info} />
+                </Box>
+            )}
         </Flex>
     );
 };

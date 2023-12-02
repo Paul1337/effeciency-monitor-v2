@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stat } from '../../components/Stat/Stat';
 
 export const StatPage = () => {

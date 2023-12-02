@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    ParseIntPipe,
+    Post,
+    Req,
+} from '@nestjs/common';
 import { HistoryService } from './history.service';
 import { Private } from 'src/auth/decorators/private.decorator';
 import { DoDealDto } from './dto/do-deal.dto';
@@ -19,7 +29,13 @@ export class HistoryController {
     @Get()
     findAll(@Req() request: Request) {
         const user = request['user'];
-        return this.historyService.findAll(user.id);
+        return this.historyService.find(user.id);
+    }
+
+    @Get('recent/:last_days')
+    findRecent(@Req() request: Request, @Param('last_days', ParseIntPipe) lastDaysCount: number) {
+        const user = request['user'];
+        return this.historyService.find(user.id, lastDaysCount);
     }
 
     @Get('today')

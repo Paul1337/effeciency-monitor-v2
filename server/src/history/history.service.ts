@@ -27,9 +27,12 @@ export class HistoryService {
         }
     }
 
-    async findAll(userId: number) {
+    async find(userId: number, lastDaysCount?: number) {
         const historyItemRes = await this.databaseService.dbClient.query(
-            'select h.*, d.name as deal_name from public.history h, public.deal d where h.user_id = $1 and d.id = h.deal_id',
+            `select h.*, d.name as deal_name 
+                from public.history h, public.deal d 
+                where h.user_id = $1 and d.id = h.deal_id 
+                ${lastDaysCount ? `and abs(CURRENT_DATE - h.date) <= ${lastDaysCount}` : ''}`,
             [userId],
         );
         return historyItemRes.rows;

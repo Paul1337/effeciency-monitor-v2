@@ -14,3 +14,7 @@ export enum EChartType {
     Accumulation = 'accumulation',
     AccumulationRelative = 'accumulation-relative',
 }
+
+export interface IData {
+    chartsData: Array<IChartItem>;
+}

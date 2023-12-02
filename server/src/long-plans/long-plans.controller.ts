@@ -19,6 +19,11 @@ export class LongPlansController {
         return this.longPlansService.findAll(request['user'].id);
     }
 
+    @Get('stat')
+    getOverallStat(@Req() request: Request) {
+        return this.longPlansService.getOverallPlansStat(request['user'].id);
+    }
+
     @Delete(':id')
     remove(@Param('id') id: string, @Req() request: Request) {
         return this.longPlansService.remove(+id, request['user'].id);
