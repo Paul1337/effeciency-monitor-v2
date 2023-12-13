@@ -13,7 +13,7 @@ export const loadData = async (plan: IDailyPlan, chartType: EChartType): Promise
             const dailyRelativeStat = await dailyPlansApi.getDailyRelativeStat(plan.id);
             return {
                 chartsData: dailyRelativeStat.map((st: IDBStatItem) => ({
-                    name: st.date,
+                    name: new Date(st.date).toLocaleDateString(),
                     value: Number(st.value ?? 0),
                 })),
             };
