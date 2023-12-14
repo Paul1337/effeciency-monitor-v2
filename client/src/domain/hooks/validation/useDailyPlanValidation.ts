@@ -10,8 +10,8 @@ export const useDailyPlanValidation: TUseDailyPlanValidation = (dealName, weekda
 
     let error;
 
-    if (weekdaysCount.some(count => count <= 0)) {
-        error = `Plan amounts should be positive`;
+    if (weekdaysCount.some(count => count < 0)) {
+        error = `Plan amounts should be not positive`;
     }
 
     return error ? { isValid: false, error } : { isValid: true };
